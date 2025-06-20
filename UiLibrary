@@ -5,7 +5,7 @@ local stats = get('Stats')
 local function getPing()
 	return stats.PerformanceStats.Ping:GetValue()
 end
-print('Lib loaded')
+print('Lib e')
 
 -- FF2 Values
 local values = rs.Flags

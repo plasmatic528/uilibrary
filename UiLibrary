@@ -3906,7 +3906,7 @@ function UI.CreatePage(Name,ID,icon)
 				end
 				combinedElementHeight += PaddingBetween*(#items-1) + TopPadding + BottomPadding
 
-				ScrollingFrame.CanvasSize = UDim2.new(0,0,0,combinedElementHeight)
+				ScrollingFrame.CanvasSize = UDim2.new(0,0,1,combinedElementHeight)
 			end
 			
 		end

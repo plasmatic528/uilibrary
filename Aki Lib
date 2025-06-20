@@ -5,7 +5,7 @@ local stats = get('Stats')
 local function getPing()
 	return stats.PerformanceStats.Ping:GetValue()
 end
-print('Lib loaded')
+print('Libs load')
 
 -- FF2 Values
 local values = rs.Flags
@@ -2937,7 +2937,7 @@ function UI.SetVisible(v)end
 local function AutoSizeTabContainerScrollingFrame()
 	local ScrollingFrame = GUI.Main.TabContainer
 	
-	ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.X
+	ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 	local PaddingBetween = ScrollingFrame.UIListLayout.Padding.Offset
 	local TopPadding = 0--ScrollingFrame.UIPadding.PaddingTop.Offset

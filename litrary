@@ -1,0 +1,3922 @@
+local get=function(x)return game:GetService(x)end local players = get('Players') local ws = get('Workspace') local rs = get('ReplicatedStorage') local rus = get('RunService') local uis = get('UserInputService') local http = get('HttpService') local ts = get('TeleportService') local lighting = get('Lighting') local plr = players.LocalPlayer local cf = CFrame local v3 = Vector3 local v2 = Vector2 local ud2 = UDim2 local c3 = Color3 local rgb = c3.fromRGB local step = rus.Stepped local rstep = rus.RenderStepped local heartbeat = rus.Heartbeat local keys = Enum.KeyCode local states = Enum.HumanoidStateType local JSON = { stringify = function(x) return http:JSONEncode(x) end, parse = function(x) return http:JSONDecode(x) end } local char = plr.Character or plr.CharacterAdded:Wait() local hum, hrp, torso local function onCharAdded(c) hum = c:WaitForChild('Humanoid') hrp = c:WaitForChild('HumanoidRootPart') torso = char:WaitForChild(hum.RigType == Enum.HumanoidRigType.R6 and 'Torso' or 'UpperTorso') end onCharAdded(char) plr.CharacterAdded:Connect(onCharAdded) local function create(class, parent, props, children) if not class then return end props = props or { } children = children or { } local obj = Instance.new(class, parent) for prop, name in pairs(props) do obj[prop] = name end for _, child in pairs(children) do child.Parent = obj end return obj end local function bind(key, func) uis.InputBegan:Connect(function(k, gpe) if not gpe and k.KeyCode == key then func() end end) end local function find(tbl, value) local func = type(value) == 'function' and value or function(x)return v==x end for _, v in pairs(tbl) do if func(v) then return v end end return end local function indexOf(tbl, value) for i, v in pairs(tbl) do if v == value then return i end end return end local function handleChar(p, func) local char2 = p.Character if char2 then local hum2 = char2:FindFirstChild('Humanoid') local hrp2 = char2:FindFirstChild('HumanoidRootPart') if hum2 and hrp2 then func(char2, hum2, hrp2) end end end local wait = task.wait
+local tws = get('TweenService')
+local guis = get('GuiService')
+local stats = get('Stats')
+local function getPing()
+	return stats.PerformanceStats.Ping:GetValue()
+end
+print('Lib loaded')
+
+-- FF2 Values
+local values = rs.Flags
+local statusVal = values.Status
+local playTypeVal = values.PlayType
+local thrownVal = values.Thrown
+local possessionTagVal = values.PossessionTag
+local carrierVal = values.Carrier
+
+local flags = rs.Flags
+local statusFlag = flags.Status
+local ballFlag = flags.Ball
+local thrownFlag = flags.Thrown
+local playTypeFlag = flags.PlayType
+local carrierFlag = flags.Carrier
+local throwableFlag = flags.Throwable
+local possessionTagFlag = flags.PossessionTag
+local QBFlag = flags.QB
+
+
+-- UI
+local get=function(x)return game:GetService(x)end local players = get('Players') local ws = get('Workspace') local rs = get('ReplicatedStorage') local rus = get('RunService') local uis = get('UserInputService') local http = get('HttpService') local ts = get('TeleportService') local lighting = get('Lighting') local plr = players.LocalPlayer local cf = CFrame local v3 = Vector3 local v2 = Vector2 local ud2 = UDim2 local c3 = Color3 local rgb = c3.fromRGB local step = rus.Stepped local rstep = rus.RenderStepped local heartbeat = rus.Heartbeat local keys = Enum.KeyCode local states = Enum.HumanoidStateType local JSON = { stringify = function(x) return http:JSONEncode(x) end, parse = function(x) return http:JSONDecode(x) end } local char = plr.Character or plr.CharacterAdded:Wait() local hum, hrp, torso local function onCharAdded(c) hum = c:WaitForChild('Humanoid') hrp = c:WaitForChild('HumanoidRootPart') torso = char:WaitForChild(hum.RigType == Enum.HumanoidRigType.R6 and 'Torso' or 'UpperTorso') end onCharAdded(char) plr.CharacterAdded:Connect(onCharAdded) local function create(class, parent, props, children) if not class then return end props = props or { } children = children or { } local obj = Instance.new(class, parent) for prop, name in pairs(props) do obj[prop] = name end for _, child in pairs(children) do child.Parent = obj end return obj end local function bind(key, func) uis.InputBegan:Connect(function(k, gpe) if not gpe and k.KeyCode == key then func() end end) end local function find(tbl, value) local func = type(value) == 'function' and value or function(x)return v==x end for _, v in pairs(tbl) do if func(v) then return v end end return end local function indexOf(tbl, value) for i, v in pairs(tbl) do if v == value then return i end end return end local function handleChar(p, func) local char2 = p.Character if char2 then local hum2 = char2:FindFirstChild('Humanoid') local hrp2 = char2:FindFirstChild('HumanoidRootPart') if hum2 and hrp2 then func(char2, hum2, hrp2) end end end local wait = task.wait
+local tws = get('TweenService')
+local guis = get('GuiService')
+
+local UIElements = {
+	Library = Instance.new("ScreenGui"),
+	ButtonWindowTemplate = Instance.new("Frame"),
+	UICorner = Instance.new("UICorner"),
+	FeatureContainer = Instance.new("ScrollingFrame"),
+	UICorner_1 = Instance.new("UICorner"),
+	UIStroke = Instance.new("UIStroke"),
+	UIListLayout = Instance.new("UIListLayout"),
+	UIPadding = Instance.new("UIPadding"),
+	ColorPickerTemplate = Instance.new("Frame"),
+	UICorner_2 = Instance.new("UICorner"),
+	UIStroke_1 = Instance.new("UIStroke"),
+	ToggleText = Instance.new("TextButton"),
+	UICorner_3 = Instance.new("UICorner"),
+	DropdownImage = Instance.new("ImageLabel"),
+	UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint"),
+	DropdownButton = Instance.new("TextButton"),
+	CanvasGroup = Instance.new("CanvasGroup"),
+	ImageButton = Instance.new("ImageButton"),
+	UIAspectRatioConstraint_1 = Instance.new("UIAspectRatioConstraint"),
+	UICorner_4 = Instance.new("UICorner"),
+	Frame = Instance.new("Frame"),
+	UIAspectRatioConstraint_2 = Instance.new("UIAspectRatioConstraint"),
+	UIStroke_2 = Instance.new("UIStroke"),
+	UICorner_5 = Instance.new("UICorner"),
+	RightCont = Instance.new("Frame"),
+	UIPadding_1 = Instance.new("UIPadding"),
+	HexCode = Instance.new("Frame"),
+	TextBox = Instance.new("TextBox"),
+	UICorner_6 = Instance.new("UICorner"),
+	TextLabel = Instance.new("TextLabel"),
+	UIListLayout_1 = Instance.new("UIListLayout"),
+	RGBandHSV = Instance.new("Frame"),
+	UIListLayout_2 = Instance.new("UIListLayout"),
+	RGB = Instance.new("Frame"),
+	R = Instance.new("Frame"),
+	RLabel = Instance.new("TextLabel"),
+	RBox = Instance.new("TextBox"),
+	UICorner_7 = Instance.new("UICorner"),
+	G = Instance.new("Frame"),
+	GLabel = Instance.new("TextLabel"),
+	GBox = Instance.new("TextBox"),
+	UICorner_8 = Instance.new("UICorner"),
+	B = Instance.new("Frame"),
+	BBox = Instance.new("TextBox"),
+	UICorner_9 = Instance.new("UICorner"),
+	BLabel = Instance.new("TextLabel"),
+	UIListLayout_3 = Instance.new("UIListLayout"),
+	HSV = Instance.new("Frame"),
+	Value = Instance.new("Frame"),
+	VBox = Instance.new("TextBox"),
+	UICorner_10 = Instance.new("UICorner"),
+	VLabel = Instance.new("TextLabel"),
+	Saturation = Instance.new("Frame"),
+	SBox = Instance.new("TextBox"),
+	UICorner_11 = Instance.new("UICorner"),
+	SLabel = Instance.new("TextLabel"),
+	Hue = Instance.new("Frame"),
+	HBox = Instance.new("TextBox"),
+	UICorner_12 = Instance.new("UICorner"),
+	HLabel = Instance.new("TextLabel"),
+	UIListLayout_4 = Instance.new("UIListLayout"),
+	BrightnessSlider = Instance.new("Frame"),
+	UICorner_13 = Instance.new("UICorner"),
+	UIGradient = Instance.new("UIGradient"),
+	UIStroke_3 = Instance.new("UIStroke"),
+	BrightnessSliderButton = Instance.new("TextButton"),
+	DropdownTemplate = Instance.new("Frame"),
+	UICorner_14 = Instance.new("UICorner"),
+	UIStroke_4 = Instance.new("UIStroke"),
+	DropdownText = Instance.new("TextButton"),
+	UICorner_15 = Instance.new("UICorner"),
+	DropdownImage_1 = Instance.new("ImageLabel"),
+	UIAspectRatioConstraint_3 = Instance.new("UIAspectRatioConstraint"),
+	DropdownButton_1 = Instance.new("TextButton"),
+	DropdownSubCont = Instance.new("ScrollingFrame"),
+	UIPadding_2 = Instance.new("UIPadding"),
+	UIListLayout_5 = Instance.new("UIListLayout"),
+	UnselectedOptionTemplate = Instance.new("Frame"),
+	UICorner_16 = Instance.new("UICorner"),
+	UIStroke_5 = Instance.new("UIStroke"),
+	Name = Instance.new("TextButton"),
+	UICorner_17 = Instance.new("UICorner"),
+	SelectedOptionTemplate = Instance.new("Frame"),
+	UICorner_18 = Instance.new("UICorner"),
+	UIStroke_6 = Instance.new("UIStroke"),
+	UIGradient_1 = Instance.new("UIGradient"),
+	Name_1 = Instance.new("TextButton"),
+	UICorner_19 = Instance.new("UICorner"),
+	Check = Instance.new("ImageLabel"),
+	UIAspectRatioConstraint_4 = Instance.new("UIAspectRatioConstraint"),
+	UIGradient_2 = Instance.new("UIGradient"),
+	UICorner_20 = Instance.new("UICorner"),
+	UIStroke_7 = Instance.new("UIStroke"),
+	OpenFrame = Instance.new("Frame"),
+	UICorner_21 = Instance.new("UICorner"),
+	UIStroke_8 = Instance.new("UIStroke"),
+	OpenBtn = Instance.new("TextButton"),
+	SliderTemplate = Instance.new("Frame"),
+	UICorner_22 = Instance.new("UICorner"),
+	UIStroke_9 = Instance.new("UIStroke"),
+	SliderBackground = Instance.new("Frame"),
+	Fill = Instance.new("Frame"),
+	UICorner_23 = Instance.new("UICorner"),
+	UIStroke_10 = Instance.new("UIStroke"),
+	UIGradient_3 = Instance.new("UIGradient"),
+	UIGradient_4 = Instance.new("UIGradient"),
+	UICorner_24 = Instance.new("UICorner"),
+	UIStroke_11 = Instance.new("UIStroke"),
+	TextButton = Instance.new("TextButton"),
+	NumberText = Instance.new("TextBox"),
+	UICorner_25 = Instance.new("UICorner"),
+	SliderClickDetection = Instance.new("TextButton"),
+	SliderText = Instance.new("TextButton"),
+	UICorner_26 = Instance.new("UICorner"),
+	ToggleTemplate = Instance.new("Frame"),
+	UICorner_27 = Instance.new("UICorner"),
+	UIStroke_12 = Instance.new("UIStroke"),
+	ToggleText_1 = Instance.new("TextButton"),
+	UICorner_28 = Instance.new("UICorner"),
+	Toggle = Instance.new("Frame"),
+	UICorner_29 = Instance.new("UICorner"),
+	ToggleBtn = Instance.new("TextButton"),
+	UIAspectRatioConstraint_5 = Instance.new("UIAspectRatioConstraint"),
+	GradientOn = Instance.new("UIGradient"),
+	ToggleDot = Instance.new("ImageButton"),
+	UIAspectRatioConstraint_6 = Instance.new("UIAspectRatioConstraint"),
+	GradientOff = Instance.new("UIGradient"),
+	OpenFrame_1 = Instance.new("Frame"),
+	UICorner_30 = Instance.new("UICorner"),
+	UIStroke_13 = Instance.new("UIStroke"),
+	OpenBtn_1 = Instance.new("TextButton"),
+	UIStroke_14 = Instance.new("UIStroke"),
+	UIAspectRatioConstraint_7 = Instance.new("UIAspectRatioConstraint"),
+	MainButton = Instance.new("TextButton"),
+	UICorner_31 = Instance.new("UICorner"),
+	TextLabel_1 = Instance.new("TextLabel"),
+	UIStroke_15 = Instance.new("UIStroke"),
+	KeybindButton = Instance.new("TextButton"),
+	UICorner_32 = Instance.new("UICorner"),
+	TextLabel_2 = Instance.new("TextLabel"),
+	UIStroke_16 = Instance.new("UIStroke"),
+	Title = Instance.new("TextLabel"),
+	UICorner_33 = Instance.new("UICorner"),
+	UIDragDetector = Instance.new("UIDragDetector"),
+	ToggleWindowTemplate = Instance.new("CanvasGroup"),
+	UICorner_34 = Instance.new("UICorner"),
+	UIAspectRatioConstraint_8 = Instance.new("UIAspectRatioConstraint"),
+	UIDragDetector_1 = Instance.new("UIDragDetector"),
+	UIStroke_17 = Instance.new("UIStroke"),
+	FeatureContainer_1 = Instance.new("ScrollingFrame"),
+	UICorner_35 = Instance.new("UICorner"),
+	UIStroke_18 = Instance.new("UIStroke"),
+	UIListLayout_6 = Instance.new("UIListLayout"),
+	UIPadding_3 = Instance.new("UIPadding"),
+	ToggleTemplate_1 = Instance.new("Frame"),
+	UICorner_36 = Instance.new("UICorner"),
+	UIStroke_19 = Instance.new("UIStroke"),
+	ToggleText_2 = Instance.new("TextButton"),
+	UICorner_37 = Instance.new("UICorner"),
+	KeybindFrame = Instance.new("Frame"),
+	UICorner_38 = Instance.new("UICorner"),
+	UIStroke_20 = Instance.new("UIStroke"),
+	KeybindButton_1 = Instance.new("TextButton"),
+	Toggle_1 = Instance.new("Frame"),
+	UIAspectRatioConstraint_9 = Instance.new("UIAspectRatioConstraint"),
+	ToggleBtn_1 = Instance.new("TextButton"),
+	UIStroke_21 = Instance.new("UIStroke"),
+	UICorner_39 = Instance.new("UICorner"),
+	Gradient = Instance.new("UIGradient"),
+	Background = Instance.new("Frame"),
+	UICorner_40 = Instance.new("UICorner"),
+	ToggleDot_1 = Instance.new("ImageLabel"),
+	UIAspectRatioConstraint_10 = Instance.new("UIAspectRatioConstraint"),
+	UIAspectRatioConstraint_11 = Instance.new("UIAspectRatioConstraint"),
+	DropdownTemplate_1 = Instance.new("Frame"),
+	UICorner_41 = Instance.new("UICorner"),
+	UIStroke_22 = Instance.new("UIStroke"),
+	DropdownText_1 = Instance.new("TextButton"),
+	UICorner_42 = Instance.new("UICorner"),
+	Dropdown = Instance.new("Frame"),
+	UICorner_43 = Instance.new("UICorner"),
+	UIStroke_23 = Instance.new("UIStroke"),
+	DropdownImage_2 = Instance.new("ImageLabel"),
+	UIAspectRatioConstraint_12 = Instance.new("UIAspectRatioConstraint"),
+	DropdownButton_2 = Instance.new("TextButton"),
+	ClickDetection = Instance.new("TextButton"),
+	Label = Instance.new("TextLabel"),
+	DropdownSubContCG = Instance.new("CanvasGroup"),
+	UIPadding_4 = Instance.new("UIPadding"),
+	DropdownSubCont_1 = Instance.new("ScrollingFrame"),
+	UIPadding_5 = Instance.new("UIPadding"),
+	UIListLayout_7 = Instance.new("UIListLayout"),
+	OptionTemplate = Instance.new("Frame"),
+	UICorner_44 = Instance.new("UICorner"),
+	UIStroke_24 = Instance.new("UIStroke"),
+	UIGradient_5 = Instance.new("UIGradient"),
+	Check_1 = Instance.new("ImageLabel"),
+	UIAspectRatioConstraint_13 = Instance.new("UIAspectRatioConstraint"),
+	Background_1 = Instance.new("Frame"),
+	UICorner_45 = Instance.new("UICorner"),
+	ClickDetection_1 = Instance.new("TextButton"),
+	Name_2 = Instance.new("TextLabel"),
+	UICorner_46 = Instance.new("UICorner"),
+	UIStroke_25 = Instance.new("UIStroke"),
+	UIAspectRatioConstraint_14 = Instance.new("UIAspectRatioConstraint"),
+	ColorPickerTemplate_1 = Instance.new("Frame"),
+	UICorner_47 = Instance.new("UICorner"),
+	UIStroke_26 = Instance.new("UIStroke"),
+	Title_1 = Instance.new("TextButton"),
+	UICorner_48 = Instance.new("UICorner"),
+	CanvasGroup_1 = Instance.new("CanvasGroup"),
+	ColorPickerCircle = Instance.new("ImageButton"),
+	UIAspectRatioConstraint_15 = Instance.new("UIAspectRatioConstraint"),
+	UICorner_49 = Instance.new("UICorner"),
+	FakeCursor = Instance.new("Frame"),
+	UIAspectRatioConstraint_16 = Instance.new("UIAspectRatioConstraint"),
+	UIStroke_27 = Instance.new("UIStroke"),
+	UICorner_50 = Instance.new("UICorner"),
+	RightCont_1 = Instance.new("Frame"),
+	UIPadding_6 = Instance.new("UIPadding"),
+	HexCode_1 = Instance.new("Frame"),
+	TextBox_1 = Instance.new("TextBox"),
+	UICorner_51 = Instance.new("UICorner"),
+	TextLabel_3 = Instance.new("TextLabel"),
+	UIListLayout_8 = Instance.new("UIListLayout"),
+	RGBandHSV_1 = Instance.new("Frame"),
+	UIListLayout_9 = Instance.new("UIListLayout"),
+	RGB_1 = Instance.new("Frame"),
+	R_1 = Instance.new("Frame"),
+	RLabel_1 = Instance.new("TextLabel"),
+	RBox_1 = Instance.new("TextBox"),
+	UICorner_52 = Instance.new("UICorner"),
+	G_1 = Instance.new("Frame"),
+	GLabel_1 = Instance.new("TextLabel"),
+	GBox_1 = Instance.new("TextBox"),
+	UICorner_53 = Instance.new("UICorner"),
+	B_1 = Instance.new("Frame"),
+	BBox_1 = Instance.new("TextBox"),
+	UICorner_54 = Instance.new("UICorner"),
+	BLabel_1 = Instance.new("TextLabel"),
+	UIListLayout_10 = Instance.new("UIListLayout"),
+	HSV_1 = Instance.new("Frame"),
+	Value_1 = Instance.new("Frame"),
+	VBox_1 = Instance.new("TextBox"),
+	UICorner_55 = Instance.new("UICorner"),
+	VLabel_1 = Instance.new("TextLabel"),
+	Saturation_1 = Instance.new("Frame"),
+	SBox_1 = Instance.new("TextBox"),
+	UICorner_56 = Instance.new("UICorner"),
+	SLabel_1 = Instance.new("TextLabel"),
+	Hue_1 = Instance.new("Frame"),
+	HBox_1 = Instance.new("TextBox"),
+	UICorner_57 = Instance.new("UICorner"),
+	HLabel_1 = Instance.new("TextLabel"),
+	UIListLayout_11 = Instance.new("UIListLayout"),
+	BrightnessSlider_1 = Instance.new("Frame"),
+	UICorner_58 = Instance.new("UICorner"),
+	UIGradient_6 = Instance.new("UIGradient"),
+	UIStroke_28 = Instance.new("UIStroke"),
+	BrightnessSliderButton_1 = Instance.new("TextButton"),
+	BrightnessSliderMarker = Instance.new("Frame"),
+	UIStroke_29 = Instance.new("UIStroke"),
+	UICorner_59 = Instance.new("UICorner"),
+	UIAspectRatioConstraint_17 = Instance.new("UIAspectRatioConstraint"),
+	TextBoxTemplate = Instance.new("Frame"),
+	UICorner_60 = Instance.new("UICorner"),
+	UIStroke_30 = Instance.new("UIStroke"),
+	Title_2 = Instance.new("TextButton"),
+	UICorner_61 = Instance.new("UICorner"),
+	TextBox_2 = Instance.new("TextBox"),
+	UICorner_62 = Instance.new("UICorner"),
+	UIStroke_31 = Instance.new("UIStroke"),
+	UIAspectRatioConstraint_18 = Instance.new("UIAspectRatioConstraint"),
+	SliderTemplate_1 = Instance.new("Frame"),
+	UICorner_63 = Instance.new("UICorner"),
+	UIStroke_32 = Instance.new("UIStroke"),
+	SliderBackground_1 = Instance.new("Frame"),
+	Fill_1 = Instance.new("Frame"),
+	UICorner_64 = Instance.new("UICorner"),
+	UIStroke_33 = Instance.new("UIStroke"),
+	UIGradient_7 = Instance.new("UIGradient"),
+	UIGradient_8 = Instance.new("UIGradient"),
+	UICorner_65 = Instance.new("UICorner"),
+	UIStroke_34 = Instance.new("UIStroke"),
+	TextButton_1 = Instance.new("TextButton"),
+	NumberText_1 = Instance.new("TextBox"),
+	UICorner_66 = Instance.new("UICorner"),
+	SliderClickDetection_1 = Instance.new("TextButton"),
+	SliderText_1 = Instance.new("TextButton"),
+	UICorner_67 = Instance.new("UICorner"),
+	KeybindTemplate = Instance.new("Frame"),
+	UICorner_68 = Instance.new("UICorner"),
+	UIStroke_35 = Instance.new("UIStroke"),
+	Title_3 = Instance.new("TextButton"),
+	UICorner_69 = Instance.new("UICorner"),
+	KeybindFrame_1 = Instance.new("Frame"),
+	UICorner_70 = Instance.new("UICorner"),
+	UIStroke_36 = Instance.new("UIStroke"),
+	KeybindButton_2 = Instance.new("TextButton"),
+	UIAspectRatioConstraint_19 = Instance.new("UIAspectRatioConstraint"),
+	Title_4 = Instance.new("TextLabel"),
+	UICorner_71 = Instance.new("UICorner"),
+	Main = Instance.new("Frame"),
+	UICorner_72 = Instance.new("UICorner"),
+	UIStroke_37 = Instance.new("UIStroke"),
+	UIAspectRatioConstraint_20 = Instance.new("UIAspectRatioConstraint"),
+	Logo = Instance.new("ImageLabel"),
+	UIDragDetector_2 = Instance.new("UIDragDetector"),
+	BodyCG = Instance.new("CanvasGroup"),
+	BodyTemplate = Instance.new("ScrollingFrame"),
+	ToggleFeatureTemplate = Instance.new("Frame"),
+	SetBind = Instance.new("Frame"),
+	SetBind_1 = Instance.new("TextButton"),
+	UIStroke_38 = Instance.new("UIStroke"),
+	UICorner_73 = Instance.new("UICorner"),
+	OpenFrame_2 = Instance.new("Frame"),
+	OpenBtn_2 = Instance.new("TextButton"),
+	UIStroke_39 = Instance.new("UIStroke"),
+	UICorner_74 = Instance.new("UICorner"),
+	Name_3 = Instance.new("TextButton"),
+	UICorner_75 = Instance.new("UICorner"),
+	Toggle_2 = Instance.new("Frame"),
+	UIAspectRatioConstraint_21 = Instance.new("UIAspectRatioConstraint"),
+	ToggleBtn_2 = Instance.new("TextButton"),
+	UICorner_76 = Instance.new("UICorner"),
+	Gradient_1 = Instance.new("UIGradient"),
+	Background_2 = Instance.new("Frame"),
+	UICorner_77 = Instance.new("UICorner"),
+	ToggleDot_2 = Instance.new("ImageLabel"),
+	UIAspectRatioConstraint_22 = Instance.new("UIAspectRatioConstraint"),
+	UIStroke_40 = Instance.new("UIStroke"),
+	UIStroke_41 = Instance.new("UIStroke"),
+	UICorner_78 = Instance.new("UICorner"),
+	UIPadding_7 = Instance.new("UIPadding"),
+	UIListLayout_12 = Instance.new("UIListLayout"),
+	UICorner_79 = Instance.new("UICorner"),
+	UIStroke_42 = Instance.new("UIStroke"),
+	UIPadding_8 = Instance.new("UIPadding"),
+	TabContainer = Instance.new("ScrollingFrame"),
+	TabTemplate = Instance.new("TextButton"),
+	UICorner_80 = Instance.new("UICorner"),
+	UIStroke_43 = Instance.new("UIStroke"),
+	UIGradient_9 = Instance.new("UIGradient"),
+	Background_3 = Instance.new("Frame"),
+	UICorner_81 = Instance.new("UICorner"),
+	Icon = Instance.new("ImageLabel"),
+	TabText = Instance.new("TextLabel"),
+	UIListLayout_13 = Instance.new("UIListLayout"),
+	UIPadding_9 = Instance.new("UIPadding")
+}
+
+UIElements.Library.SafeAreaCompatibility = Enum.SafeAreaCompatibility.None
+UIElements.Library.ResetOnSpawn = false
+UIElements.Library.IgnoreGuiInset = true
+UIElements.Library.ScreenInsets = Enum.ScreenInsets.None
+UIElements.Library.Name = "Library"
+UIElements.Library.ClipToDeviceSafeArea = false
+UIElements.Library.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+UIElements.Library.Parent = game:GetService('CoreGui')
+
+UIElements.ButtonWindowTemplate.BorderSizePixel = 0
+UIElements.ButtonWindowTemplate.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+UIElements.ButtonWindowTemplate.AnchorPoint = Vector2.new(0.5, 0)
+UIElements.ButtonWindowTemplate.Visible = false
+UIElements.ButtonWindowTemplate.Size = UDim2.new(0.237207, 0, 0.434483, 0)
+UIElements.ButtonWindowTemplate.Name = "ButtonWindowTemplate"
+UIElements.ButtonWindowTemplate.Position = UDim2.new(0.727023, 0, 0.388191, 0)
+UIElements.ButtonWindowTemplate.Parent = UIElements.Library
+
+UIElements.UICorner.CornerRadius = UDim.new(0, 12)
+UIElements.UICorner.Parent = UIElements.ButtonWindowTemplate
+
+UIElements.FeatureContainer.BorderSizePixel = 0
+UIElements.FeatureContainer.CanvasSize = UDim2.new(0, 0, 1, 0)
+UIElements.FeatureContainer.Position = UDim2.new(0.0619448, 0, 0.173617, 0)
+UIElements.FeatureContainer.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+UIElements.FeatureContainer.Active = true
+UIElements.FeatureContainer.AutomaticCanvasSize = Enum.AutomaticSize.Y
+UIElements.FeatureContainer.Size = UDim2.new(0.863, 0, 0.640144, 0)
+UIElements.FeatureContainer.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.FeatureContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.FeatureContainer.ScrollBarThickness = 0
+UIElements.FeatureContainer.Name = "FeatureContainer"
+UIElements.FeatureContainer.ElasticBehavior = Enum.ElasticBehavior.Never
+UIElements.FeatureContainer.Parent = UIElements.ButtonWindowTemplate
+
+UIElements.UICorner_1.CornerRadius = UDim.new(0, 12)
+UIElements.UICorner_1.Parent = UIElements.FeatureContainer
+
+UIElements.UIStroke.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke.Transparency = 0.6
+UIElements.UIStroke.Parent = UIElements.FeatureContainer
+
+UIElements.UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout.Padding = UDim.new(0.03, 0)
+UIElements.UIListLayout.Parent = UIElements.FeatureContainer
+
+UIElements.UIPadding.PaddingTop = UDim.new(0.05, 0)
+UIElements.UIPadding.Parent = UIElements.FeatureContainer
+
+UIElements.ColorPickerTemplate.BorderSizePixel = 0
+UIElements.ColorPickerTemplate.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.ColorPickerTemplate.Visible = false
+UIElements.ColorPickerTemplate.Size = UDim2.new(0.867109, 0, 0.605674, 0)
+UIElements.ColorPickerTemplate.Name = "ColorPickerTemplate"
+UIElements.ColorPickerTemplate.Position = UDim2.new(0.0717318, 0, 0.0183341, 0)
+UIElements.ColorPickerTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ColorPickerTemplate.Parent = UIElements.FeatureContainer
+
+UIElements.UICorner_2.Parent = UIElements.ColorPickerTemplate
+
+UIElements.UIStroke_1.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_1.Transparency = 0.6
+UIElements.UIStroke_1.Parent = UIElements.ColorPickerTemplate
+
+UIElements.ToggleText.TextWrapped = true
+UIElements.ToggleText.AutoButtonColor = false
+UIElements.ToggleText.TextScaled = true
+UIElements.ToggleText.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.ToggleText.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.ToggleText.Name = "ToggleText"
+UIElements.ToggleText.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.ToggleText.TextSize = 15
+UIElements.ToggleText.Size = UDim2.new(0.569, 0, 0.1, 0)
+UIElements.ToggleText.Position = UDim2.new(0.325, 0, 0.1, 0)
+UIElements.ToggleText.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.ToggleText.Text = "Color Picker"
+UIElements.ToggleText.BackgroundTransparency = 1
+UIElements.ToggleText.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.ToggleText.Parent = UIElements.ColorPickerTemplate
+
+UIElements.UICorner_3.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_3.Parent = UIElements.ToggleText
+
+UIElements.DropdownImage.ImageColor3 = Color3.fromRGB(194, 194, 194)
+UIElements.DropdownImage.BorderSizePixel = 0
+UIElements.DropdownImage.Name = "DropdownImage"
+UIElements.DropdownImage.Image = "http://www.roblox.com/asset/?id=6034818372"
+UIElements.DropdownImage.ImageContent = Content.fromUri("http://www.roblox.com/asset/?id=6034818372")
+UIElements.DropdownImage.Size = UDim2.new(0.0926472, 0, 0.747345, 0)
+UIElements.DropdownImage.Rotation = 180
+UIElements.DropdownImage.BackgroundTransparency = 1
+UIElements.DropdownImage.Position = UDim2.new(0.886, 0, 0.008, 0)
+UIElements.DropdownImage.Parent = UIElements.ColorPickerTemplate
+
+UIElements.UIAspectRatioConstraint.Parent = UIElements.DropdownImage
+
+UIElements.DropdownButton.BorderSizePixel = 0
+UIElements.DropdownButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.DropdownButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.DropdownButton.Name = "DropdownButton"
+UIElements.DropdownButton.TextSize = 14
+UIElements.DropdownButton.Size = UDim2.new(1, 0, 1, 0)
+UIElements.DropdownButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownButton.Text = ""
+UIElements.DropdownButton.BackgroundTransparency = 1
+UIElements.DropdownButton.Parent = UIElements.DropdownImage
+
+UIElements.CanvasGroup.BorderSizePixel = 0
+UIElements.CanvasGroup.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.CanvasGroup.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.CanvasGroup.Size = UDim2.new(1, 0, 1, 0)
+UIElements.CanvasGroup.BackgroundTransparency = 1
+UIElements.CanvasGroup.Parent = UIElements.ColorPickerTemplate
+
+UIElements.ImageButton.BorderSizePixel = 0
+UIElements.ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ImageButton.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.ImageButton.Image = "rbxassetid://97520092464471"
+UIElements.ImageButton.ImageContent = Content.fromUri("rbxassetid://97520092464471")
+UIElements.ImageButton.Size = UDim2.new(0.352794, 0, 0.545321, 0)
+UIElements.ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ImageButton.BackgroundTransparency = 1
+UIElements.ImageButton.Position = UDim2.new(0.212908, 0, 0.508731, 0)
+UIElements.ImageButton.ScaleType = Enum.ScaleType.Fit
+UIElements.ImageButton.Parent = UIElements.CanvasGroup
+
+UIElements.UIAspectRatioConstraint_1.Parent = UIElements.ImageButton
+
+UIElements.UICorner_4.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_4.Parent = UIElements.ImageButton
+
+UIElements.Frame.BorderSizePixel = 0
+UIElements.Frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+UIElements.Frame.Size = UDim2.new(0.1, 0, 0.1, 0)
+UIElements.Frame.Position = UDim2.new(0.0728946, 0, 0.516853, 0)
+UIElements.Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Frame.BackgroundTransparency = 0.95
+UIElements.Frame.Parent = UIElements.ImageButton
+
+UIElements.UIAspectRatioConstraint_2.Parent = UIElements.Frame
+
+UIElements.UIStroke_2.Transparency = 0.6
+UIElements.UIStroke_2.Parent = UIElements.Frame
+
+UIElements.UICorner_5.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_5.Parent = UIElements.Frame
+
+UIElements.RightCont.BorderSizePixel = 0
+UIElements.RightCont.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.RightCont.AnchorPoint = Vector2.new(1, 0)
+UIElements.RightCont.Size = UDim2.new(0.5, 0, 0.537805, 0)
+UIElements.RightCont.Name = "RightCont"
+UIElements.RightCont.Position = UDim2.new(0.96137, 0, 0.279617, 0)
+UIElements.RightCont.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RightCont.BackgroundTransparency = 1
+UIElements.RightCont.Parent = UIElements.CanvasGroup
+
+UIElements.UIPadding_1.PaddingRight = UDim.new(0, 10)
+UIElements.UIPadding_1.Parent = UIElements.RightCont
+
+UIElements.HexCode.BorderSizePixel = 0
+UIElements.HexCode.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.HexCode.Size = UDim2.new(1, 0, 0.2, 0)
+UIElements.HexCode.Name = "HexCode"
+UIElements.HexCode.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.HexCode.BackgroundTransparency = 1
+UIElements.HexCode.Parent = UIElements.RightCont
+
+UIElements.TextBox.TextWrapped = true
+UIElements.TextBox.BorderSizePixel = 0
+UIElements.TextBox.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+UIElements.TextBox.Position = UDim2.new(1, 0, 0, 0)
+UIElements.TextBox.TextScaled = true
+UIElements.TextBox.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.TextBox.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.TextBox.AnchorPoint = Vector2.new(1, 0)
+UIElements.TextBox.TextSize = 14
+UIElements.TextBox.Size = UDim2.new(0.5, 0, 1, 0)
+UIElements.TextBox.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextBox.Text = "#7437f5"
+UIElements.TextBox.ClearTextOnFocus = false
+UIElements.TextBox.Parent = UIElements.HexCode
+
+UIElements.UICorner_6.Parent = UIElements.TextBox
+
+UIElements.TextLabel.TextWrapped = true
+UIElements.TextLabel.BorderSizePixel = 0
+UIElements.TextLabel.TextScaled = true
+UIElements.TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.TextLabel.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.TextLabel.TextSize = 14
+UIElements.TextLabel.Size = UDim2.new(0.457177, 0, 1, 0)
+UIElements.TextLabel.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextLabel.Text = "Hex Code"
+UIElements.TextLabel.BackgroundTransparency = 1
+UIElements.TextLabel.Parent = UIElements.HexCode
+
+UIElements.UIListLayout_1.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_1.VerticalAlignment = Enum.VerticalAlignment.Center
+UIElements.UIListLayout_1.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_1.Padding = UDim.new(0.15, 0)
+UIElements.UIListLayout_1.Parent = UIElements.RightCont
+
+UIElements.RGBandHSV.BorderSizePixel = 0
+UIElements.RGBandHSV.BackgroundColor3 = Color3.fromRGB(255, 20, 24)
+UIElements.RGBandHSV.Size = UDim2.new(1, 0, 0.8, 0)
+UIElements.RGBandHSV.Name = "RGBandHSV"
+UIElements.RGBandHSV.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RGBandHSV.BackgroundTransparency = 1
+UIElements.RGBandHSV.Parent = UIElements.RightCont
+
+UIElements.UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_2.Padding = UDim.new(0.1, 0)
+UIElements.UIListLayout_2.Parent = UIElements.RGBandHSV
+
+UIElements.RGB.BorderSizePixel = 0
+UIElements.RGB.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.RGB.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.RGB.Name = "RGB"
+UIElements.RGB.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RGB.BackgroundTransparency = 1
+UIElements.RGB.Parent = UIElements.RGBandHSV
+
+UIElements.R.BorderSizePixel = 0
+UIElements.R.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.R.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.R.Name = "R"
+UIElements.R.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.R.BackgroundTransparency = 1
+UIElements.R.Parent = UIElements.RGB
+
+UIElements.RLabel.TextWrapped = true
+UIElements.RLabel.BorderSizePixel = 0
+UIElements.RLabel.TextScaled = true
+UIElements.RLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.RLabel.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.RLabel.Name = "RLabel"
+UIElements.RLabel.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.RLabel.TextSize = 14
+UIElements.RLabel.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.RLabel.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.RLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RLabel.Text = "R"
+UIElements.RLabel.BackgroundTransparency = 1
+UIElements.RLabel.Parent = UIElements.R
+
+UIElements.RBox.TextWrapped = true
+UIElements.RBox.BorderSizePixel = 0
+UIElements.RBox.TextScaled = true
+UIElements.RBox.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.RBox.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.RBox.TextSize = 14
+UIElements.RBox.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.RBox.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.RBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RBox.Text = "116"
+UIElements.RBox.Name = "RBox"
+UIElements.RBox.ClearTextOnFocus = false
+UIElements.RBox.Parent = UIElements.R
+
+UIElements.UICorner_7.Parent = UIElements.RBox
+
+UIElements.G.BorderSizePixel = 0
+UIElements.G.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.G.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.G.Name = "G"
+UIElements.G.Position = UDim2.new(0.333, 0, 0, 0)
+UIElements.G.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.G.BackgroundTransparency = 1
+UIElements.G.Parent = UIElements.RGB
+
+UIElements.GLabel.TextWrapped = true
+UIElements.GLabel.BorderSizePixel = 0
+UIElements.GLabel.TextScaled = true
+UIElements.GLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.GLabel.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.GLabel.Name = "GLabel"
+UIElements.GLabel.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.GLabel.TextSize = 14
+UIElements.GLabel.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.GLabel.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.GLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.GLabel.Text = "G"
+UIElements.GLabel.BackgroundTransparency = 1
+UIElements.GLabel.Parent = UIElements.G
+
+UIElements.GBox.TextWrapped = true
+UIElements.GBox.BorderSizePixel = 0
+UIElements.GBox.TextScaled = true
+UIElements.GBox.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.GBox.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.GBox.TextSize = 14
+UIElements.GBox.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.GBox.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.GBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.GBox.Text = "55"
+UIElements.GBox.Name = "GBox"
+UIElements.GBox.ClearTextOnFocus = false
+UIElements.GBox.Parent = UIElements.G
+
+UIElements.UICorner_8.Parent = UIElements.GBox
+
+UIElements.B.BorderSizePixel = 0
+UIElements.B.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.B.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.B.Name = "B"
+UIElements.B.Position = UDim2.new(0.667, 0, 0, 0)
+UIElements.B.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.B.BackgroundTransparency = 1
+UIElements.B.Parent = UIElements.RGB
+
+UIElements.BBox.TextWrapped = true
+UIElements.BBox.BorderSizePixel = 0
+UIElements.BBox.TextScaled = true
+UIElements.BBox.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.BBox.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.BBox.TextSize = 14
+UIElements.BBox.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.BBox.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.BBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BBox.Text = "245"
+UIElements.BBox.Name = "BBox"
+UIElements.BBox.ClearTextOnFocus = false
+UIElements.BBox.Parent = UIElements.B
+
+UIElements.UICorner_9.Parent = UIElements.BBox
+
+UIElements.BLabel.TextWrapped = true
+UIElements.BLabel.BorderSizePixel = 0
+UIElements.BLabel.TextScaled = true
+UIElements.BLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.BLabel.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.BLabel.Name = "BLabel"
+UIElements.BLabel.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.BLabel.TextSize = 14
+UIElements.BLabel.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.BLabel.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.BLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BLabel.Text = "B"
+UIElements.BLabel.BackgroundTransparency = 1
+UIElements.BLabel.Parent = UIElements.B
+
+UIElements.UIListLayout_3.FillDirection = Enum.FillDirection.Horizontal
+UIElements.UIListLayout_3.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_3.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_3.Padding = UDim.new(0, 3)
+UIElements.UIListLayout_3.Parent = UIElements.RGB
+
+UIElements.HSV.BorderSizePixel = 0
+UIElements.HSV.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.HSV.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.HSV.Name = "HSV"
+UIElements.HSV.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.HSV.BackgroundTransparency = 1
+UIElements.HSV.Parent = UIElements.RGBandHSV
+
+UIElements.Value.BorderSizePixel = 0
+UIElements.Value.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Value.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.Value.Name = "Value"
+UIElements.Value.Position = UDim2.new(0.667, 0, 0, 0)
+UIElements.Value.LayoutOrder = 2
+UIElements.Value.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Value.BackgroundTransparency = 1
+UIElements.Value.Parent = UIElements.HSV
+
+UIElements.VBox.TextWrapped = true
+UIElements.VBox.BorderSizePixel = 0
+UIElements.VBox.TextScaled = true
+UIElements.VBox.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.VBox.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.VBox.TextSize = 14
+UIElements.VBox.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.VBox.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.VBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.VBox.Text = "245"
+UIElements.VBox.Name = "VBox"
+UIElements.VBox.ClearTextOnFocus = false
+UIElements.VBox.Parent = UIElements.Value
+
+UIElements.UICorner_10.Parent = UIElements.VBox
+
+UIElements.VLabel.TextWrapped = true
+UIElements.VLabel.BorderSizePixel = 0
+UIElements.VLabel.TextScaled = true
+UIElements.VLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.VLabel.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.VLabel.Name = "VLabel"
+UIElements.VLabel.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.VLabel.TextSize = 14
+UIElements.VLabel.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.VLabel.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.VLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.VLabel.Text = "V"
+UIElements.VLabel.BackgroundTransparency = 1
+UIElements.VLabel.Parent = UIElements.Value
+
+UIElements.Saturation.BorderSizePixel = 0
+UIElements.Saturation.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Saturation.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.Saturation.Name = "Saturation"
+UIElements.Saturation.Position = UDim2.new(0.333, 0, 0, 0)
+UIElements.Saturation.LayoutOrder = 1
+UIElements.Saturation.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Saturation.BackgroundTransparency = 1
+UIElements.Saturation.Parent = UIElements.HSV
+
+UIElements.SBox.TextWrapped = true
+UIElements.SBox.BorderSizePixel = 0
+UIElements.SBox.TextScaled = true
+UIElements.SBox.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.SBox.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.SBox.TextSize = 14
+UIElements.SBox.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.SBox.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.SBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SBox.Text = "198"
+UIElements.SBox.Name = "SBox"
+UIElements.SBox.ClearTextOnFocus = false
+UIElements.SBox.Parent = UIElements.Saturation
+
+UIElements.UICorner_11.Parent = UIElements.SBox
+
+UIElements.SLabel.TextWrapped = true
+UIElements.SLabel.BorderSizePixel = 0
+UIElements.SLabel.TextScaled = true
+UIElements.SLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.SLabel.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.SLabel.Name = "SLabel"
+UIElements.SLabel.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.SLabel.TextSize = 14
+UIElements.SLabel.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.SLabel.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.SLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SLabel.Text = "S"
+UIElements.SLabel.BackgroundTransparency = 1
+UIElements.SLabel.Parent = UIElements.Saturation
+
+UIElements.Hue.BorderSizePixel = 0
+UIElements.Hue.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Hue.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.Hue.Name = "Hue"
+UIElements.Hue.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Hue.BackgroundTransparency = 1
+UIElements.Hue.Parent = UIElements.HSV
+
+UIElements.HBox.TextWrapped = true
+UIElements.HBox.BorderSizePixel = 0
+UIElements.HBox.TextScaled = true
+UIElements.HBox.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.HBox.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.HBox.TextSize = 14
+UIElements.HBox.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.HBox.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.HBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.HBox.Text = "259"
+UIElements.HBox.Name = "HBox"
+UIElements.HBox.ClearTextOnFocus = false
+UIElements.HBox.Parent = UIElements.Hue
+
+UIElements.UICorner_12.Parent = UIElements.HBox
+
+UIElements.HLabel.TextWrapped = true
+UIElements.HLabel.BorderSizePixel = 0
+UIElements.HLabel.TextScaled = true
+UIElements.HLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.HLabel.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.HLabel.Name = "HLabel"
+UIElements.HLabel.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.HLabel.TextSize = 14
+UIElements.HLabel.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.HLabel.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.HLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.HLabel.Text = "H"
+UIElements.HLabel.BackgroundTransparency = 1
+UIElements.HLabel.Parent = UIElements.Hue
+
+UIElements.UIListLayout_4.FillDirection = Enum.FillDirection.Horizontal
+UIElements.UIListLayout_4.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_4.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_4.Padding = UDim.new(0, 3)
+UIElements.UIListLayout_4.Parent = UIElements.HSV
+
+UIElements.BrightnessSlider.BorderSizePixel = 0
+UIElements.BrightnessSlider.BackgroundColor3 = Color3.fromRGB(116, 55, 245)
+UIElements.BrightnessSlider.AnchorPoint = Vector2.new(0.5, 1)
+UIElements.BrightnessSlider.Size = UDim2.new(0.352794, 0, 0.0963952, 0)
+UIElements.BrightnessSlider.Name = "BrightnessSlider"
+UIElements.BrightnessSlider.Position = UDim2.new(0.212908, 0, 0.947149, 0)
+UIElements.BrightnessSlider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BrightnessSlider.Parent = UIElements.CanvasGroup
+
+UIElements.UICorner_13.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_13.Parent = UIElements.BrightnessSlider
+
+UIElements.UIGradient.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 0, 0)), ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255)) }
+UIElements.UIGradient.Rotation = 180
+UIElements.UIGradient.Parent = UIElements.BrightnessSlider
+
+UIElements.UIStroke_3.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_3.Transparency = 0.6
+UIElements.UIStroke_3.Parent = UIElements.BrightnessSlider
+
+UIElements.BrightnessSliderButton.BorderSizePixel = 0
+UIElements.BrightnessSliderButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.BrightnessSliderButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.BrightnessSliderButton.Name = "BrightnessSliderButton"
+UIElements.BrightnessSliderButton.TextSize = 14
+UIElements.BrightnessSliderButton.Size = UDim2.new(1, 0, 1, 0)
+UIElements.BrightnessSliderButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BrightnessSliderButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BrightnessSliderButton.Text = ""
+UIElements.BrightnessSliderButton.BackgroundTransparency = 1
+UIElements.BrightnessSliderButton.Parent = UIElements.BrightnessSlider
+
+UIElements.DropdownTemplate.BorderSizePixel = 0
+UIElements.DropdownTemplate.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.DropdownTemplate.Visible = false
+UIElements.DropdownTemplate.Size = UDim2.new(0.867, 0, 0.115, 0)
+UIElements.DropdownTemplate.Name = "DropdownTemplate"
+UIElements.DropdownTemplate.Position = UDim2.new(0.0664458, 0, 0.426593, 0)
+UIElements.DropdownTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownTemplate.Parent = UIElements.FeatureContainer
+
+UIElements.UICorner_14.Parent = UIElements.DropdownTemplate
+
+UIElements.UIStroke_4.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_4.Transparency = 0.6
+UIElements.UIStroke_4.Parent = UIElements.DropdownTemplate
+
+UIElements.DropdownText.TextWrapped = true
+UIElements.DropdownText.AutoButtonColor = false
+UIElements.DropdownText.TextScaled = true
+UIElements.DropdownText.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.DropdownText.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.DropdownText.Name = "DropdownText"
+UIElements.DropdownText.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.DropdownText.TextSize = 15
+UIElements.DropdownText.Size = UDim2.new(0.46131, 0, 0.517575, 0)
+UIElements.DropdownText.Position = UDim2.new(0.270923, 0, 0.5, 0)
+UIElements.DropdownText.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.DropdownText.Text = "Dropdown"
+UIElements.DropdownText.BackgroundTransparency = 1
+UIElements.DropdownText.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.DropdownText.Parent = UIElements.DropdownTemplate
+
+UIElements.UICorner_15.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_15.Parent = UIElements.DropdownText
+
+UIElements.DropdownImage_1.ImageColor3 = Color3.fromRGB(194, 194, 194)
+UIElements.DropdownImage_1.BorderSizePixel = 0
+UIElements.DropdownImage_1.Name = "DropdownImage"
+UIElements.DropdownImage_1.Image = "http://www.roblox.com/asset/?id=6034818372"
+UIElements.DropdownImage_1.ImageContent = Content.fromUri("http://www.roblox.com/asset/?id=6034818372")
+UIElements.DropdownImage_1.Size = UDim2.new(0.0926472, 0, 0.747345, 0)
+UIElements.DropdownImage_1.BackgroundTransparency = 1
+UIElements.DropdownImage_1.Position = UDim2.new(0.885795, 0, 0.107261, 0)
+UIElements.DropdownImage_1.Parent = UIElements.DropdownTemplate
+
+UIElements.UIAspectRatioConstraint_3.Parent = UIElements.DropdownImage_1
+
+UIElements.DropdownButton_1.BorderSizePixel = 0
+UIElements.DropdownButton_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.DropdownButton_1.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.DropdownButton_1.Name = "DropdownButton"
+UIElements.DropdownButton_1.TextSize = 14
+UIElements.DropdownButton_1.Size = UDim2.new(1, 0, 1, 0)
+UIElements.DropdownButton_1.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownButton_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownButton_1.Text = ""
+UIElements.DropdownButton_1.BackgroundTransparency = 1
+UIElements.DropdownButton_1.Parent = UIElements.DropdownImage_1
+
+UIElements.DropdownSubCont.ZIndex = 5
+UIElements.DropdownSubCont.BorderSizePixel = 0
+UIElements.DropdownSubCont.CanvasSize = UDim2.new(0, 0, 1, 0)
+UIElements.DropdownSubCont.Visible = false
+UIElements.DropdownSubCont.Position = UDim2.new(0, 0, 1.277, 0)
+UIElements.DropdownSubCont.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.DropdownSubCont.Active = true
+UIElements.DropdownSubCont.AutomaticCanvasSize = Enum.AutomaticSize.XY
+UIElements.DropdownSubCont.Size = UDim2.new(1.002, 0, 3.47202, 0)
+UIElements.DropdownSubCont.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownSubCont.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownSubCont.ScrollBarImageTransparency = 1
+UIElements.DropdownSubCont.ScrollBarThickness = 0
+UIElements.DropdownSubCont.Name = "DropdownSubCont"
+UIElements.DropdownSubCont.Parent = UIElements.DropdownTemplate
+
+UIElements.UIPadding_2.PaddingTop = UDim.new(0.05, 0)
+UIElements.UIPadding_2.Parent = UIElements.DropdownSubCont
+
+UIElements.UIListLayout_5.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_5.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_5.Padding = UDim.new(0.05, 0)
+UIElements.UIListLayout_5.Parent = UIElements.DropdownSubCont
+
+UIElements.UnselectedOptionTemplate.BorderSizePixel = 0
+UIElements.UnselectedOptionTemplate.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.UnselectedOptionTemplate.ZIndex = 15
+UIElements.UnselectedOptionTemplate.Visible = false
+UIElements.UnselectedOptionTemplate.Size = UDim2.new(0.917912, 0, 0.223944, 0)
+UIElements.UnselectedOptionTemplate.Name = "UnselectedOptionTemplate"
+UIElements.UnselectedOptionTemplate.Position = UDim2.new(0.0410442, 0, -8.93279e-08, 0)
+UIElements.UnselectedOptionTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.UnselectedOptionTemplate.Parent = UIElements.DropdownSubCont
+
+UIElements.UICorner_16.Parent = UIElements.UnselectedOptionTemplate
+
+UIElements.UIStroke_5.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_5.Transparency = 0.6
+UIElements.UIStroke_5.Parent = UIElements.UnselectedOptionTemplate
+
+UIElements.Name.TextWrapped = true
+UIElements.Name.ZIndex = 15
+UIElements.Name.AutoButtonColor = false
+UIElements.Name.TextScaled = true
+UIElements.Name.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.Name.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+UIElements.Name.Name = "Name"
+UIElements.Name.TextSize = 20
+UIElements.Name.Size = UDim2.new(0.589159, 0, 0.660159, 0)
+UIElements.Name.Position = UDim2.new(0.0289997, 0, 0.167892, 0)
+UIElements.Name.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.Name.Text = "Unselected"
+UIElements.Name.BackgroundTransparency = 1
+UIElements.Name.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.Name.Parent = UIElements.UnselectedOptionTemplate
+
+UIElements.UICorner_17.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_17.Parent = UIElements.Name
+
+UIElements.SelectedOptionTemplate.BorderSizePixel = 0
+UIElements.SelectedOptionTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.SelectedOptionTemplate.ZIndex = 15
+UIElements.SelectedOptionTemplate.Visible = false
+UIElements.SelectedOptionTemplate.Size = UDim2.new(0.917912, 0, 0.223944, 0)
+UIElements.SelectedOptionTemplate.Name = "SelectedOptionTemplate"
+UIElements.SelectedOptionTemplate.Position = UDim2.new(0.0410442, 0, 0.299473, 0)
+UIElements.SelectedOptionTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SelectedOptionTemplate.Parent = UIElements.DropdownSubCont
+
+UIElements.UICorner_18.Parent = UIElements.SelectedOptionTemplate
+
+UIElements.UIStroke_6.Color = Color3.fromRGB(255, 255, 255)
+UIElements.UIStroke_6.Transparency = 0.6
+UIElements.UIStroke_6.Parent = UIElements.SelectedOptionTemplate
+
+UIElements.UIGradient_1.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(136, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(60, 42, 102)) }
+UIElements.UIGradient_1.Parent = UIElements.UIStroke_6
+
+UIElements.Name_1.TextWrapped = true
+UIElements.Name_1.ZIndex = 15
+UIElements.Name_1.AutoButtonColor = false
+UIElements.Name_1.TextScaled = true
+UIElements.Name_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.Name_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+UIElements.Name_1.Name = "Name"
+UIElements.Name_1.TextSize = 20
+UIElements.Name_1.Size = UDim2.new(0.589159, 0, 0.660159, 0)
+UIElements.Name_1.Position = UDim2.new(0.0289997, 0, 0.167892, 0)
+UIElements.Name_1.TextColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Name_1.Text = "Selected"
+UIElements.Name_1.BackgroundTransparency = 1
+UIElements.Name_1.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.Name_1.Parent = UIElements.SelectedOptionTemplate
+
+UIElements.UICorner_19.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_19.Parent = UIElements.Name_1
+
+UIElements.Check.BorderSizePixel = 0
+UIElements.Check.ZIndex = 155
+UIElements.Check.Name = "Check"
+UIElements.Check.Image = "http://www.roblox.com/asset/?id=6031094667"
+UIElements.Check.ImageContent = Content.fromUri("http://www.roblox.com/asset/?id=6031094667")
+UIElements.Check.Size = UDim2.new(0.8, 0, 0.8, 0)
+UIElements.Check.BackgroundTransparency = 1
+UIElements.Check.Position = UDim2.new(0.889998, 0, 0.0999985, 0)
+UIElements.Check.Parent = UIElements.SelectedOptionTemplate
+
+UIElements.UIAspectRatioConstraint_4.Parent = UIElements.Check
+
+UIElements.UIGradient_2.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(106, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(32, 22, 54)) }
+UIElements.UIGradient_2.Rotation = 90
+UIElements.UIGradient_2.Parent = UIElements.SelectedOptionTemplate
+
+UIElements.UICorner_20.Parent = UIElements.DropdownSubCont
+
+UIElements.UIStroke_7.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_7.Transparency = 0.6
+UIElements.UIStroke_7.Parent = UIElements.DropdownSubCont
+
+UIElements.OpenFrame.BorderSizePixel = 0
+UIElements.OpenFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.OpenFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.OpenFrame.Size = UDim2.new(0.216, 0, 0.56, 0)
+UIElements.OpenFrame.Name = "OpenFrame"
+UIElements.OpenFrame.Position = UDim2.new(0.698, 0, 0.5, 0)
+UIElements.OpenFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.OpenFrame.Parent = UIElements.DropdownTemplate
+
+UIElements.UICorner_21.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_21.Parent = UIElements.OpenFrame
+
+UIElements.UIStroke_8.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_8.Thickness = 1.2
+UIElements.UIStroke_8.Transparency = 0.7
+UIElements.UIStroke_8.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_8.Parent = UIElements.OpenFrame
+
+UIElements.OpenBtn.TextWrapped = true
+UIElements.OpenBtn.AutoButtonColor = false
+UIElements.OpenBtn.TextScaled = true
+UIElements.OpenBtn.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.OpenBtn.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.OpenBtn.Name = "OpenBtn"
+UIElements.OpenBtn.TextSize = 16
+UIElements.OpenBtn.Size = UDim2.new(0.8, 0, 0.8, 0)
+UIElements.OpenBtn.Position = UDim2.new(0.1, 0, 0.1, 0)
+UIElements.OpenBtn.TextColor3 = Color3.fromRGB(124, 124, 124)
+UIElements.OpenBtn.Text = "Set Bind"
+UIElements.OpenBtn.BackgroundTransparency = 1
+UIElements.OpenBtn.Parent = UIElements.OpenFrame
+
+UIElements.SliderTemplate.BorderSizePixel = 0
+UIElements.SliderTemplate.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.SliderTemplate.Visible = false
+UIElements.SliderTemplate.Size = UDim2.new(0.867109, 0, 0.163161, 0)
+UIElements.SliderTemplate.Name = "SliderTemplate"
+UIElements.SliderTemplate.Position = UDim2.new(0.0664457, 0, 0.032386, 0)
+UIElements.SliderTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SliderTemplate.Parent = UIElements.FeatureContainer
+
+UIElements.UICorner_22.Parent = UIElements.SliderTemplate
+
+UIElements.UIStroke_9.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_9.Transparency = 0.6
+UIElements.UIStroke_9.Parent = UIElements.SliderTemplate
+
+UIElements.SliderBackground.BorderSizePixel = 0
+UIElements.SliderBackground.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+UIElements.SliderBackground.Size = UDim2.new(0.923382, 0, 0.17, 0)
+UIElements.SliderBackground.Name = "SliderBackground"
+UIElements.SliderBackground.Position = UDim2.new(0.0367861, 0, 0.641298, 0)
+UIElements.SliderBackground.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SliderBackground.Parent = UIElements.SliderTemplate
+
+UIElements.Fill.BorderSizePixel = 0
+UIElements.Fill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Fill.Size = UDim2.new(0.5, 0, 1, 0)
+UIElements.Fill.Name = "Fill"
+UIElements.Fill.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Fill.Parent = UIElements.SliderBackground
+
+UIElements.UICorner_23.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_23.Parent = UIElements.Fill
+
+UIElements.UIStroke_10.Color = Color3.fromRGB(255, 255, 255)
+UIElements.UIStroke_10.Thickness = 1.1
+UIElements.UIStroke_10.Transparency = 0.6
+UIElements.UIStroke_10.Parent = UIElements.Fill
+
+UIElements.UIGradient_3.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(136, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(60, 42, 102)) }
+UIElements.UIGradient_3.Parent = UIElements.UIStroke_10
+
+UIElements.UIGradient_4.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(51, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(144, 88, 255)) }
+UIElements.UIGradient_4.Rotation = 90
+UIElements.UIGradient_4.Parent = UIElements.Fill
+
+UIElements.UICorner_24.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_24.Parent = UIElements.SliderBackground
+
+UIElements.UIStroke_11.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_11.Transparency = 0.6
+UIElements.UIStroke_11.Parent = UIElements.SliderBackground
+
+UIElements.TextButton.BorderSizePixel = 0
+UIElements.TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.TextButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.TextButton.TextSize = 14
+UIElements.TextButton.Size = UDim2.new(1, 0, 1, 0)
+UIElements.TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextButton.Text = ""
+UIElements.TextButton.BackgroundTransparency = 1
+UIElements.TextButton.Parent = UIElements.SliderBackground
+
+UIElements.NumberText.TextWrapped = true
+UIElements.NumberText.BorderSizePixel = 0
+UIElements.NumberText.PlaceholderColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.NumberText.Position = UDim2.new(0.726315, 0, 0.179, 0)
+UIElements.NumberText.BackgroundTransparency = 1
+UIElements.NumberText.TextScaled = true
+UIElements.NumberText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.NumberText.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.NumberText.TextSize = 14
+UIElements.NumberText.Size = UDim2.new(0.23, 0, 0.265, 0)
+UIElements.NumberText.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.NumberText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.NumberText.Text = "67 studs"
+UIElements.NumberText.Name = "NumberText"
+UIElements.NumberText.TextXAlignment = Enum.TextXAlignment.Right
+UIElements.NumberText.Parent = UIElements.SliderTemplate
+
+UIElements.UICorner_25.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_25.Parent = UIElements.NumberText
+
+UIElements.SliderClickDetection.ZIndex = 2
+UIElements.SliderClickDetection.BorderSizePixel = 0
+UIElements.SliderClickDetection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.SliderClickDetection.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.SliderClickDetection.Name = "SliderClickDetection"
+UIElements.SliderClickDetection.TextSize = 14
+UIElements.SliderClickDetection.Size = UDim2.new(1, 0, 1, 0)
+UIElements.SliderClickDetection.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SliderClickDetection.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SliderClickDetection.Text = ""
+UIElements.SliderClickDetection.BackgroundTransparency = 1
+UIElements.SliderClickDetection.Parent = UIElements.SliderTemplate
+
+UIElements.SliderText.TextWrapped = true
+UIElements.SliderText.AutoButtonColor = false
+UIElements.SliderText.TextScaled = true
+UIElements.SliderText.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.SliderText.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.SliderText.Name = "SliderText"
+UIElements.SliderText.TextSize = 15
+UIElements.SliderText.Size = UDim2.new(0.667202, 0, 0.3609, 0)
+UIElements.SliderText.Position = UDim2.new(0.0398633, 0, 0.135778, 0)
+UIElements.SliderText.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.SliderText.Text = "Slider"
+UIElements.SliderText.BackgroundTransparency = 1
+UIElements.SliderText.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.SliderText.Parent = UIElements.SliderTemplate
+
+UIElements.UICorner_26.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_26.Parent = UIElements.SliderText
+
+UIElements.ToggleTemplate.BorderSizePixel = 0
+UIElements.ToggleTemplate.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.ToggleTemplate.Visible = false
+UIElements.ToggleTemplate.Size = UDim2.new(0.867109, 0, 0.120705, 0)
+UIElements.ToggleTemplate.Name = "ToggleTemplate"
+UIElements.ToggleTemplate.Position = UDim2.new(0.0664458, 0, 0.426593, 0)
+UIElements.ToggleTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleTemplate.Parent = UIElements.FeatureContainer
+
+UIElements.UICorner_27.Parent = UIElements.ToggleTemplate
+
+UIElements.UIStroke_12.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_12.Transparency = 0.6
+UIElements.UIStroke_12.Parent = UIElements.ToggleTemplate
+
+UIElements.ToggleText_1.TextWrapped = true
+UIElements.ToggleText_1.AutoButtonColor = false
+UIElements.ToggleText_1.TextScaled = true
+UIElements.ToggleText_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.ToggleText_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.ToggleText_1.Name = "ToggleText"
+UIElements.ToggleText_1.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.ToggleText_1.TextSize = 15
+UIElements.ToggleText_1.Size = UDim2.new(0.569409, 0, 0.517575, 0)
+UIElements.ToggleText_1.Position = UDim2.new(0.324972, 0, 0.5, 0)
+UIElements.ToggleText_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.ToggleText_1.Text = "Window Toggle"
+UIElements.ToggleText_1.BackgroundTransparency = 1
+UIElements.ToggleText_1.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.ToggleText_1.Parent = UIElements.ToggleTemplate
+
+UIElements.UICorner_28.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_28.Parent = UIElements.ToggleText_1
+
+UIElements.Toggle.BorderSizePixel = 0
+UIElements.Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Toggle.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Toggle.Size = UDim2.new(0.132703, 0, 0.560301, 0)
+UIElements.Toggle.Name = "Toggle"
+UIElements.Toggle.Position = UDim2.new(0.9, 0, 0.5, 0)
+UIElements.Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Toggle.Parent = UIElements.ToggleTemplate
+
+UIElements.UICorner_29.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_29.Parent = UIElements.Toggle
+
+UIElements.ToggleBtn.BorderSizePixel = 0
+UIElements.ToggleBtn.TextTransparency = 1
+UIElements.ToggleBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ToggleBtn.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.ToggleBtn.Name = "ToggleBtn"
+UIElements.ToggleBtn.TextSize = 14
+UIElements.ToggleBtn.Size = UDim2.new(1, 0, 1, 0)
+UIElements.ToggleBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleBtn.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleBtn.Text = ""
+UIElements.ToggleBtn.BackgroundTransparency = 1
+UIElements.ToggleBtn.Parent = UIElements.Toggle
+
+UIElements.UIAspectRatioConstraint_5.AspectRatio = 2
+UIElements.UIAspectRatioConstraint_5.Parent = UIElements.Toggle
+
+UIElements.GradientOn.Enabled = false
+UIElements.GradientOn.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(51, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(144, 88, 255)) }
+UIElements.GradientOn.Rotation = 90
+UIElements.GradientOn.Transparency = NumberSequence.new{ NumberSequenceKeypoint.new(0, 1), NumberSequenceKeypoint.new(1, 1) }
+UIElements.GradientOn.Name = "GradientOn"
+UIElements.GradientOn.Parent = UIElements.Toggle
+
+UIElements.ToggleDot.BorderSizePixel = 0
+UIElements.ToggleDot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ToggleDot.Name = "ToggleDot"
+UIElements.ToggleDot.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.ToggleDot.Image = "rbxassetid://6755657357"
+UIElements.ToggleDot.ImageContent = Content.fromUri("rbxassetid://6755657357")
+UIElements.ToggleDot.Size = UDim2.new(0.480632, 0, 0.774431, 0)
+UIElements.ToggleDot.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleDot.BackgroundTransparency = 1
+UIElements.ToggleDot.Position = UDim2.new(0.278, 0, 0.5, 0)
+UIElements.ToggleDot.ScaleType = Enum.ScaleType.Fit
+UIElements.ToggleDot.Parent = UIElements.Toggle
+
+UIElements.UIAspectRatioConstraint_6.Parent = UIElements.ToggleDot
+
+UIElements.GradientOff.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(122, 122, 122)), ColorSequenceKeypoint.new(1, Color3.fromRGB(24, 24, 24)) }
+UIElements.GradientOff.Rotation = 90
+UIElements.GradientOff.Name = "GradientOff"
+UIElements.GradientOff.Parent = UIElements.Toggle
+
+UIElements.OpenFrame_1.BorderSizePixel = 0
+UIElements.OpenFrame_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.OpenFrame_1.AnchorPoint = Vector2.new(0.5, 0)
+UIElements.OpenFrame_1.Size = UDim2.new(0.216, 0, 0.56, 0)
+UIElements.OpenFrame_1.Name = "OpenFrame"
+UIElements.OpenFrame_1.Position = UDim2.new(0.697802, 0, 0.241213, 0)
+UIElements.OpenFrame_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.OpenFrame_1.Parent = UIElements.ToggleTemplate
+
+UIElements.UICorner_30.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_30.Parent = UIElements.OpenFrame_1
+
+UIElements.UIStroke_13.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_13.Thickness = 1.2
+UIElements.UIStroke_13.Transparency = 0.7
+UIElements.UIStroke_13.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_13.Parent = UIElements.OpenFrame_1
+
+UIElements.OpenBtn_1.TextWrapped = true
+UIElements.OpenBtn_1.AutoButtonColor = false
+UIElements.OpenBtn_1.TextScaled = true
+UIElements.OpenBtn_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.OpenBtn_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.OpenBtn_1.Name = "OpenBtn"
+UIElements.OpenBtn_1.TextSize = 16
+UIElements.OpenBtn_1.Size = UDim2.new(0.8, 0, 0.8, 0)
+UIElements.OpenBtn_1.Position = UDim2.new(0.1, 0, 0.1, 0)
+UIElements.OpenBtn_1.TextColor3 = Color3.fromRGB(124, 124, 124)
+UIElements.OpenBtn_1.Text = "Set Bind"
+UIElements.OpenBtn_1.BackgroundTransparency = 1
+UIElements.OpenBtn_1.Parent = UIElements.OpenFrame_1
+
+UIElements.UIStroke_14.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_14.Transparency = 0.6
+UIElements.UIStroke_14.Parent = UIElements.ButtonWindowTemplate
+
+UIElements.UIAspectRatioConstraint_7.Parent = UIElements.ButtonWindowTemplate
+
+UIElements.MainButton.BorderSizePixel = 0
+UIElements.MainButton.AutoButtonColor = false
+UIElements.MainButton.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.MainButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.MainButton.Name = "MainButton"
+UIElements.MainButton.TextSize = 14
+UIElements.MainButton.Size = UDim2.new(0.563518, 0, 0.0888737, 0)
+UIElements.MainButton.Position = UDim2.new(0.0588561, 0, 0.853081, 0)
+UIElements.MainButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+UIElements.MainButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.MainButton.Text = ""
+UIElements.MainButton.Parent = UIElements.ButtonWindowTemplate
+
+UIElements.UICorner_31.Parent = UIElements.MainButton
+
+UIElements.TextLabel_1.TextWrapped = true
+UIElements.TextLabel_1.BorderSizePixel = 0
+UIElements.TextLabel_1.TextScaled = true
+UIElements.TextLabel_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.TextLabel_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.TextLabel_1.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.TextLabel_1.Position = UDim2.new(0.5, 0, 0.5, 0)
+UIElements.TextLabel_1.TextSize = 14
+UIElements.TextLabel_1.Size = UDim2.new(0.5, 0, 0.45, 0)
+UIElements.TextLabel_1.TextColor3 = Color3.fromRGB(173, 173, 173)
+UIElements.TextLabel_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextLabel_1.Text = "Execute"
+UIElements.TextLabel_1.BackgroundTransparency = 1
+UIElements.TextLabel_1.Parent = UIElements.MainButton
+
+UIElements.UIStroke_15.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_15.Transparency = 0.6
+UIElements.UIStroke_15.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_15.Parent = UIElements.MainButton
+
+UIElements.KeybindButton.BorderSizePixel = 0
+UIElements.KeybindButton.AutoButtonColor = false
+UIElements.KeybindButton.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.KeybindButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.KeybindButton.Name = "KeybindButton"
+UIElements.KeybindButton.TextSize = 14
+UIElements.KeybindButton.Size = UDim2.new(0.27655, 0, 0.0888737, 0)
+UIElements.KeybindButton.Position = UDim2.new(0.648395, 0, 0.853081, 0)
+UIElements.KeybindButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+UIElements.KeybindButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.KeybindButton.Text = ""
+UIElements.KeybindButton.Parent = UIElements.ButtonWindowTemplate
+
+UIElements.UICorner_32.Parent = UIElements.KeybindButton
+
+UIElements.TextLabel_2.TextWrapped = true
+UIElements.TextLabel_2.BorderSizePixel = 0
+UIElements.TextLabel_2.TextScaled = true
+UIElements.TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.TextLabel_2.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.TextLabel_2.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.TextLabel_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+UIElements.TextLabel_2.TextSize = 14
+UIElements.TextLabel_2.Size = UDim2.new(1, 0, 0.45, 0)
+UIElements.TextLabel_2.TextColor3 = Color3.fromRGB(173, 173, 173)
+UIElements.TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextLabel_2.Text = "Set Bind"
+UIElements.TextLabel_2.BackgroundTransparency = 1
+UIElements.TextLabel_2.Parent = UIElements.KeybindButton
+
+UIElements.UIStroke_16.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_16.Transparency = 0.6
+UIElements.UIStroke_16.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_16.Parent = UIElements.KeybindButton
+
+UIElements.Title.TextWrapped = true
+UIElements.Title.TextScaled = true
+UIElements.Title.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+UIElements.Title.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.Title.Name = "Title"
+UIElements.Title.Selectable = true
+UIElements.Title.Position = UDim2.new(0.288891, 0, 0.0492829, 0)
+UIElements.Title.Size = UDim2.new(0.420425, 0, 0.0762619, 0)
+UIElements.Title.TextColor3 = Color3.fromRGB(173, 173, 173)
+UIElements.Title.BorderColor3 = Color3.fromRGB(27, 42, 53)
+UIElements.Title.Text = "WINDOW_NAME"
+UIElements.Title.BackgroundTransparency = 1
+UIElements.Title.Parent = UIElements.ButtonWindowTemplate
+
+UIElements.UICorner_33.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_33.Parent = UIElements.Title
+
+UIElements.UIDragDetector.DragUDim2 = UDim2.new(0, 0, 0, 11)
+UIElements.UIDragDetector.Parent = UIElements.ButtonWindowTemplate
+
+UIElements.ToggleWindowTemplate.BorderSizePixel = 0
+UIElements.ToggleWindowTemplate.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+UIElements.ToggleWindowTemplate.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.ToggleWindowTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleWindowTemplate.Size = UDim2.new(0.164, 0, 0.292, 0)
+UIElements.ToggleWindowTemplate.Position = UDim2.new(0.702974, 0, 0.434673, 0)
+UIElements.ToggleWindowTemplate.Name = "ToggleWindowTemplate"
+UIElements.ToggleWindowTemplate.Parent = UIElements.Library
+
+UIElements.UICorner_34.CornerRadius = UDim.new(0, 12)
+UIElements.UICorner_34.Parent = UIElements.ToggleWindowTemplate
+
+UIElements.UIAspectRatioConstraint_8.Parent = UIElements.ToggleWindowTemplate
+
+UIElements.UIDragDetector_1.Parent = UIElements.ToggleWindowTemplate
+
+UIElements.UIStroke_17.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_17.Transparency = 0.6
+UIElements.UIStroke_17.Parent = UIElements.ToggleWindowTemplate
+
+UIElements.FeatureContainer_1.BorderSizePixel = 0
+UIElements.FeatureContainer_1.CanvasSize = UDim2.new(0, 0, 0, 607)
+UIElements.FeatureContainer_1.Position = UDim2.new(0.0619447, 0, 0.173617, 0)
+UIElements.FeatureContainer_1.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+UIElements.FeatureContainer_1.Active = true
+UIElements.FeatureContainer_1.AutomaticCanvasSize = Enum.AutomaticSize.Y
+UIElements.FeatureContainer_1.Size = UDim2.new(0.863206, 0, 0.768337, 0)
+UIElements.FeatureContainer_1.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.FeatureContainer_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.FeatureContainer_1.ScrollBarThickness = 0
+UIElements.FeatureContainer_1.Name = "FeatureContainer"
+UIElements.FeatureContainer_1.ElasticBehavior = Enum.ElasticBehavior.Never
+UIElements.FeatureContainer_1.Parent = UIElements.ToggleWindowTemplate
+
+UIElements.UICorner_35.CornerRadius = UDim.new(0, 12)
+UIElements.UICorner_35.Parent = UIElements.FeatureContainer_1
+
+UIElements.UIStroke_18.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_18.Transparency = 0.6
+UIElements.UIStroke_18.Parent = UIElements.FeatureContainer_1
+
+UIElements.UIListLayout_6.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_6.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_6.Padding = UDim.new(0, 8)
+UIElements.UIListLayout_6.Parent = UIElements.FeatureContainer_1
+
+UIElements.UIPadding_3.PaddingBottom = UDim.new(0, 20)
+UIElements.UIPadding_3.PaddingTop = UDim.new(0, 20)
+UIElements.UIPadding_3.Parent = UIElements.FeatureContainer_1
+
+UIElements.ToggleTemplate_1.BorderSizePixel = 0
+UIElements.ToggleTemplate_1.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.ToggleTemplate_1.Size = UDim2.new(0.867109, 0, 0.120705, 0)
+UIElements.ToggleTemplate_1.Name = "ToggleTemplate"
+UIElements.ToggleTemplate_1.Position = UDim2.new(0.0664458, 0, 0.426593, 0)
+UIElements.ToggleTemplate_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleTemplate_1.Parent = UIElements.FeatureContainer_1
+
+UIElements.UICorner_36.Parent = UIElements.ToggleTemplate_1
+
+UIElements.UIStroke_19.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_19.Transparency = 0.6
+UIElements.UIStroke_19.Parent = UIElements.ToggleTemplate_1
+
+UIElements.ToggleText_2.TextWrapped = true
+UIElements.ToggleText_2.AutoButtonColor = false
+UIElements.ToggleText_2.TextScaled = true
+UIElements.ToggleText_2.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.ToggleText_2.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.ToggleText_2.Name = "ToggleText"
+UIElements.ToggleText_2.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.ToggleText_2.TextSize = 15
+UIElements.ToggleText_2.Size = UDim2.new(0.569409, 0, 0.517575, 0)
+UIElements.ToggleText_2.Position = UDim2.new(0.324972, 0, 0.5, 0)
+UIElements.ToggleText_2.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.ToggleText_2.Text = "Window Toggle"
+UIElements.ToggleText_2.BackgroundTransparency = 1
+UIElements.ToggleText_2.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.ToggleText_2.Parent = UIElements.ToggleTemplate_1
+
+UIElements.UICorner_37.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_37.Parent = UIElements.ToggleText_2
+
+UIElements.KeybindFrame.BorderSizePixel = 0
+UIElements.KeybindFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.KeybindFrame.AnchorPoint = Vector2.new(0.5, 0)
+UIElements.KeybindFrame.Size = UDim2.new(0.216, 0, 0.56, 0)
+UIElements.KeybindFrame.Name = "KeybindFrame"
+UIElements.KeybindFrame.Position = UDim2.new(0.697802, 0, 0.241213, 0)
+UIElements.KeybindFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.KeybindFrame.Parent = UIElements.ToggleTemplate_1
+
+UIElements.UICorner_38.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_38.Parent = UIElements.KeybindFrame
+
+UIElements.UIStroke_20.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_20.Thickness = 1.2
+UIElements.UIStroke_20.Transparency = 0.7
+UIElements.UIStroke_20.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_20.Parent = UIElements.KeybindFrame
+
+UIElements.KeybindButton_1.TextWrapped = true
+UIElements.KeybindButton_1.AutoButtonColor = false
+UIElements.KeybindButton_1.TextScaled = true
+UIElements.KeybindButton_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.KeybindButton_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.KeybindButton_1.Name = "KeybindButton"
+UIElements.KeybindButton_1.TextSize = 16
+UIElements.KeybindButton_1.Size = UDim2.new(0.8, 0, 0.8, 0)
+UIElements.KeybindButton_1.Position = UDim2.new(0.1, 0, 0.1, 0)
+UIElements.KeybindButton_1.TextColor3 = Color3.fromRGB(124, 124, 124)
+UIElements.KeybindButton_1.Text = "Set Bind"
+UIElements.KeybindButton_1.BackgroundTransparency = 1
+UIElements.KeybindButton_1.Parent = UIElements.KeybindFrame
+
+UIElements.Toggle_1.BorderSizePixel = 0
+UIElements.Toggle_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Toggle_1.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Toggle_1.Size = UDim2.new(0.132703, 0, 0.560301, 0)
+UIElements.Toggle_1.Name = "Toggle"
+UIElements.Toggle_1.Position = UDim2.new(0.9, 0, 0.5, 0)
+UIElements.Toggle_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Toggle_1.Parent = UIElements.ToggleTemplate_1
+
+UIElements.UIAspectRatioConstraint_9.AspectRatio = 2
+UIElements.UIAspectRatioConstraint_9.Parent = UIElements.Toggle_1
+
+UIElements.ToggleBtn_1.BorderSizePixel = 0
+UIElements.ToggleBtn_1.TextTransparency = 1
+UIElements.ToggleBtn_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ToggleBtn_1.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.ToggleBtn_1.Name = "ToggleBtn"
+UIElements.ToggleBtn_1.TextSize = 14
+UIElements.ToggleBtn_1.Size = UDim2.new(1, 0, 1, 0)
+UIElements.ToggleBtn_1.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleBtn_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleBtn_1.Text = ""
+UIElements.ToggleBtn_1.BackgroundTransparency = 1
+UIElements.ToggleBtn_1.Parent = UIElements.Toggle_1
+
+UIElements.UIStroke_21.Color = Color3.fromRGB(42, 42, 42)
+UIElements.UIStroke_21.Parent = UIElements.Toggle_1
+
+UIElements.UICorner_39.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_39.Parent = UIElements.Toggle_1
+
+UIElements.Gradient.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(51, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(144, 88, 255)) }
+UIElements.Gradient.Rotation = 90
+UIElements.Gradient.Name = "Gradient"
+UIElements.Gradient.Parent = UIElements.Toggle_1
+
+UIElements.Background.BorderSizePixel = 0
+UIElements.Background.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.Background.Size = UDim2.new(1, 0, 1, 0)
+UIElements.Background.Name = "Background"
+UIElements.Background.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Background.Parent = UIElements.Toggle_1
+
+UIElements.UICorner_40.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_40.Parent = UIElements.Background
+
+UIElements.ToggleDot_1.BorderSizePixel = 0
+UIElements.ToggleDot_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ToggleDot_1.Name = "ToggleDot"
+UIElements.ToggleDot_1.AnchorPoint = Vector2.new(0.5, 0)
+UIElements.ToggleDot_1.Image = "rbxassetid://6755657357"
+UIElements.ToggleDot_1.ImageContent = Content.fromUri("rbxassetid://6755657357")
+UIElements.ToggleDot_1.Size = UDim2.new(0.481, 0, 0.774, 0)
+UIElements.ToggleDot_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleDot_1.BackgroundTransparency = 1
+UIElements.ToggleDot_1.Position = UDim2.new(0.25, 0, 0.107, 0)
+UIElements.ToggleDot_1.Parent = UIElements.Toggle_1
+
+UIElements.UIAspectRatioConstraint_10.Parent = UIElements.ToggleDot_1
+
+UIElements.UIAspectRatioConstraint_11.AspectRatio = 8.07068
+UIElements.UIAspectRatioConstraint_11.Parent = UIElements.ToggleTemplate_1
+
+UIElements.DropdownTemplate_1.BorderSizePixel = 0
+UIElements.DropdownTemplate_1.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.DropdownTemplate_1.ZIndex = 2
+UIElements.DropdownTemplate_1.Size = UDim2.new(0.867, 0, 0.115, 0)
+UIElements.DropdownTemplate_1.Name = "DropdownTemplate"
+UIElements.DropdownTemplate_1.Position = UDim2.new(0.0664458, 0, 0.426593, 0)
+UIElements.DropdownTemplate_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownTemplate_1.Parent = UIElements.FeatureContainer_1
+
+UIElements.UICorner_41.Parent = UIElements.DropdownTemplate_1
+
+UIElements.UIStroke_22.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_22.Transparency = 0.6
+UIElements.UIStroke_22.Parent = UIElements.DropdownTemplate_1
+
+UIElements.DropdownText_1.TextWrapped = true
+UIElements.DropdownText_1.AutoButtonColor = false
+UIElements.DropdownText_1.TextScaled = true
+UIElements.DropdownText_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.DropdownText_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.DropdownText_1.Name = "DropdownText"
+UIElements.DropdownText_1.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.DropdownText_1.TextSize = 15
+UIElements.DropdownText_1.Size = UDim2.new(0.375732, 0, 0.517575, 0)
+UIElements.DropdownText_1.Position = UDim2.new(0.228134, 0, 0.5, 0)
+UIElements.DropdownText_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.DropdownText_1.Text = "Dropdown"
+UIElements.DropdownText_1.BackgroundTransparency = 1
+UIElements.DropdownText_1.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.DropdownText_1.Parent = UIElements.DropdownTemplate_1
+
+UIElements.UICorner_42.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_42.Parent = UIElements.DropdownText_1
+
+UIElements.Dropdown.BorderSizePixel = 0
+UIElements.Dropdown.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.Dropdown.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Dropdown.ZIndex = 2
+UIElements.Dropdown.Size = UDim2.new(0.46175, 0, 0.56, 0)
+UIElements.Dropdown.Name = "Dropdown"
+UIElements.Dropdown.Position = UDim2.new(0.729352, 0, 0.5, 0)
+UIElements.Dropdown.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Dropdown.Parent = UIElements.DropdownTemplate_1
+
+UIElements.UICorner_43.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_43.Parent = UIElements.Dropdown
+
+UIElements.UIStroke_23.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_23.Thickness = 1.2
+UIElements.UIStroke_23.Transparency = 0.7
+UIElements.UIStroke_23.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_23.Parent = UIElements.Dropdown
+
+UIElements.DropdownImage_2.ImageColor3 = Color3.fromRGB(153, 153, 153)
+UIElements.DropdownImage_2.BorderSizePixel = 0
+UIElements.DropdownImage_2.Name = "DropdownImage"
+UIElements.DropdownImage_2.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.DropdownImage_2.Image = "http://www.roblox.com/asset/?id=6034818372"
+UIElements.DropdownImage_2.ImageContent = Content.fromUri("http://www.roblox.com/asset/?id=6034818372")
+UIElements.DropdownImage_2.Size = UDim2.new(0.124663, 0, 0.954799, 0)
+UIElements.DropdownImage_2.BackgroundTransparency = 1
+UIElements.DropdownImage_2.Position = UDim2.new(0.9, 0, 0.5, 0)
+UIElements.DropdownImage_2.Parent = UIElements.Dropdown
+
+UIElements.UIAspectRatioConstraint_12.Parent = UIElements.DropdownImage_2
+
+UIElements.DropdownButton_2.BorderSizePixel = 0
+UIElements.DropdownButton_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.DropdownButton_2.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.DropdownButton_2.Name = "DropdownButton"
+UIElements.DropdownButton_2.TextSize = 14
+UIElements.DropdownButton_2.Size = UDim2.new(1, 0, 1, 0)
+UIElements.DropdownButton_2.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownButton_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownButton_2.Text = ""
+UIElements.DropdownButton_2.BackgroundTransparency = 1
+UIElements.DropdownButton_2.Parent = UIElements.DropdownImage_2
+
+UIElements.ClickDetection.BorderSizePixel = 0
+UIElements.ClickDetection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ClickDetection.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.ClickDetection.Name = "ClickDetection"
+UIElements.ClickDetection.TextSize = 14
+UIElements.ClickDetection.Size = UDim2.new(1, 0, 1, 0)
+UIElements.ClickDetection.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ClickDetection.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ClickDetection.Text = ""
+UIElements.ClickDetection.BackgroundTransparency = 1
+UIElements.ClickDetection.Parent = UIElements.Dropdown
+
+UIElements.Label.TextWrapped = true
+UIElements.Label.BorderSizePixel = 0
+UIElements.Label.TextScaled = true
+UIElements.Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Label.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+UIElements.Label.Name = "Label"
+UIElements.Label.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Label.Position = UDim2.new(0.5, 0, 0.5, 0)
+UIElements.Label.TextSize = 14
+UIElements.Label.Size = UDim2.new(0.8, 0, 0.7, 0)
+UIElements.Label.TextColor3 = Color3.fromRGB(124, 124, 124)
+UIElements.Label.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Label.Text = "Option 1"
+UIElements.Label.BackgroundTransparency = 1
+UIElements.Label.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.Label.Parent = UIElements.Dropdown
+
+UIElements.DropdownSubContCG.BorderSizePixel = 0
+UIElements.DropdownSubContCG.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.DropdownSubContCG.AnchorPoint = Vector2.new(0.5, 0)
+UIElements.DropdownSubContCG.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownSubContCG.Visible = false
+UIElements.DropdownSubContCG.Size = UDim2.new(0.454764, 4, 3.472, 0)
+UIElements.DropdownSubContCG.Position = UDim2.new(0.732618, 0, 0.900001, -2)
+UIElements.DropdownSubContCG.BackgroundTransparency = 1
+UIElements.DropdownSubContCG.Name = "DropdownSubContCG"
+UIElements.DropdownSubContCG.Parent = UIElements.DropdownTemplate_1
+
+UIElements.UIPadding_4.PaddingBottom = UDim.new(0, 2)
+UIElements.UIPadding_4.PaddingTop = UDim.new(0, 2)
+UIElements.UIPadding_4.PaddingLeft = UDim.new(0, 2)
+UIElements.UIPadding_4.PaddingRight = UDim.new(0, 2)
+UIElements.UIPadding_4.Parent = UIElements.DropdownSubContCG
+
+UIElements.DropdownSubCont_1.ZIndex = 1e+09
+UIElements.DropdownSubCont_1.BorderSizePixel = 0
+UIElements.DropdownSubCont_1.CanvasSize = UDim2.new(0, 0, 1, 0)
+UIElements.DropdownSubCont_1.Position = UDim2.new(0.5, 0, 0.5, 0)
+UIElements.DropdownSubCont_1.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.DropdownSubCont_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.DropdownSubCont_1.Active = true
+UIElements.DropdownSubCont_1.AutomaticCanvasSize = Enum.AutomaticSize.XY
+UIElements.DropdownSubCont_1.Size = UDim2.new(1, 0, 1, 0)
+UIElements.DropdownSubCont_1.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownSubCont_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.DropdownSubCont_1.ScrollBarImageTransparency = 1
+UIElements.DropdownSubCont_1.ScrollBarThickness = 0
+UIElements.DropdownSubCont_1.Name = "DropdownSubCont"
+UIElements.DropdownSubCont_1.Parent = UIElements.DropdownSubContCG
+
+UIElements.UIPadding_5.PaddingBottom = UDim.new(0, 5)
+UIElements.UIPadding_5.PaddingTop = UDim.new(0, 5)
+UIElements.UIPadding_5.Parent = UIElements.DropdownSubCont_1
+
+UIElements.UIListLayout_7.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_7.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_7.Padding = UDim.new(0, 5)
+UIElements.UIListLayout_7.Parent = UIElements.DropdownSubCont_1
+
+UIElements.OptionTemplate.BorderSizePixel = 0
+UIElements.OptionTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.OptionTemplate.ZIndex = 15
+UIElements.OptionTemplate.Size = UDim2.new(1, -10, 0.175, 0)
+UIElements.OptionTemplate.Name = "OptionTemplate"
+UIElements.OptionTemplate.Position = UDim2.new(0.0410442, 0, 0.00179478, 0)
+UIElements.OptionTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.OptionTemplate.Parent = UIElements.DropdownSubCont_1
+
+UIElements.UICorner_44.Parent = UIElements.OptionTemplate
+
+UIElements.UIStroke_24.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_24.Transparency = 0.6
+UIElements.UIStroke_24.Parent = UIElements.OptionTemplate
+
+UIElements.UIGradient_5.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(106, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(32, 22, 54)) }
+UIElements.UIGradient_5.Rotation = 90
+UIElements.UIGradient_5.Parent = UIElements.OptionTemplate
+
+UIElements.Check_1.BorderSizePixel = 0
+UIElements.Check_1.ZIndex = 155
+UIElements.Check_1.ImageTransparency = 1
+UIElements.Check_1.Name = "Check"
+UIElements.Check_1.AnchorPoint = Vector2.new(0, 0.5)
+UIElements.Check_1.Image = "http://www.roblox.com/asset/?id=6031094667"
+UIElements.Check_1.ImageContent = Content.fromUri("http://www.roblox.com/asset/?id=6031094667")
+UIElements.Check_1.Size = UDim2.new(0.6, 0, 0.6, 0)
+UIElements.Check_1.BackgroundTransparency = 1
+UIElements.Check_1.Position = UDim2.new(0.865476, 0, 0.500001, 0)
+UIElements.Check_1.ScaleType = Enum.ScaleType.Fit
+UIElements.Check_1.Parent = UIElements.OptionTemplate
+
+UIElements.UIAspectRatioConstraint_13.Parent = UIElements.Check_1
+
+UIElements.Background_1.BorderSizePixel = 0
+UIElements.Background_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.Background_1.Size = UDim2.new(1, 0, 1, 0)
+UIElements.Background_1.Name = "Background"
+UIElements.Background_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Background_1.Parent = UIElements.OptionTemplate
+
+UIElements.UICorner_45.Parent = UIElements.Background_1
+
+UIElements.ClickDetection_1.ZIndex = 10
+UIElements.ClickDetection_1.BorderSizePixel = 0
+UIElements.ClickDetection_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ClickDetection_1.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.ClickDetection_1.Name = "ClickDetection"
+UIElements.ClickDetection_1.TextSize = 14
+UIElements.ClickDetection_1.Size = UDim2.new(1, 0, 1, 0)
+UIElements.ClickDetection_1.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ClickDetection_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ClickDetection_1.Text = ""
+UIElements.ClickDetection_1.BackgroundTransparency = 1
+UIElements.ClickDetection_1.Parent = UIElements.OptionTemplate
+
+UIElements.Name_2.TextWrapped = true
+UIElements.Name_2.BorderSizePixel = 0
+UIElements.Name_2.TextScaled = true
+UIElements.Name_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Name_2.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+UIElements.Name_2.Name = "Name"
+UIElements.Name_2.Position = UDim2.new(0.0599995, 0, 0.168, 0)
+UIElements.Name_2.TextSize = 14
+UIElements.Name_2.Size = UDim2.new(0.697908, 0, 0.66, 0)
+UIElements.Name_2.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.Name_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Name_2.Text = "Unselected"
+UIElements.Name_2.BackgroundTransparency = 1
+UIElements.Name_2.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.Name_2.Parent = UIElements.OptionTemplate
+
+UIElements.UICorner_46.Parent = UIElements.DropdownSubCont_1
+
+UIElements.UIStroke_25.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_25.Transparency = 0.6
+UIElements.UIStroke_25.Parent = UIElements.DropdownSubCont_1
+
+UIElements.UIAspectRatioConstraint_14.AspectRatio = 8.47001
+UIElements.UIAspectRatioConstraint_14.Parent = UIElements.DropdownTemplate_1
+
+UIElements.ColorPickerTemplate_1.BorderSizePixel = 0
+UIElements.ColorPickerTemplate_1.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.ColorPickerTemplate_1.Size = UDim2.new(0.867109, 0, 0.605674, 0)
+UIElements.ColorPickerTemplate_1.Name = "ColorPickerTemplate"
+UIElements.ColorPickerTemplate_1.Position = UDim2.new(0.0664457, 0, 0.333408, 0)
+UIElements.ColorPickerTemplate_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ColorPickerTemplate_1.Parent = UIElements.FeatureContainer_1
+
+UIElements.UICorner_47.Parent = UIElements.ColorPickerTemplate_1
+
+UIElements.UIStroke_26.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_26.Transparency = 0.6
+UIElements.UIStroke_26.Parent = UIElements.ColorPickerTemplate_1
+
+UIElements.Title_1.TextWrapped = true
+UIElements.Title_1.AutoButtonColor = false
+UIElements.Title_1.TextScaled = true
+UIElements.Title_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.Title_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.Title_1.Name = "Title"
+UIElements.Title_1.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Title_1.TextSize = 15
+UIElements.Title_1.Size = UDim2.new(0.569, 0, 0.1, 0)
+UIElements.Title_1.Position = UDim2.new(0.325, 0, 0.1, 0)
+UIElements.Title_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.Title_1.Text = "Color Picker"
+UIElements.Title_1.BackgroundTransparency = 1
+UIElements.Title_1.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.Title_1.Parent = UIElements.ColorPickerTemplate_1
+
+UIElements.UICorner_48.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_48.Parent = UIElements.Title_1
+
+UIElements.CanvasGroup_1.BorderSizePixel = 0
+UIElements.CanvasGroup_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.CanvasGroup_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.CanvasGroup_1.Size = UDim2.new(1, 0, 1, 0)
+UIElements.CanvasGroup_1.BackgroundTransparency = 1
+UIElements.CanvasGroup_1.Parent = UIElements.ColorPickerTemplate_1
+
+UIElements.ColorPickerCircle.BorderSizePixel = 0
+UIElements.ColorPickerCircle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ColorPickerCircle.Name = "ColorPickerCircle"
+UIElements.ColorPickerCircle.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.ColorPickerCircle.Image = "rbxassetid://97520092464471"
+UIElements.ColorPickerCircle.ImageContent = Content.fromUri("rbxassetid://97520092464471")
+UIElements.ColorPickerCircle.Size = UDim2.new(0.352794, 0, 0.545321, 0)
+UIElements.ColorPickerCircle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ColorPickerCircle.BackgroundTransparency = 1
+UIElements.ColorPickerCircle.Position = UDim2.new(0.212908, 0, 0.508731, 0)
+UIElements.ColorPickerCircle.ScaleType = Enum.ScaleType.Fit
+UIElements.ColorPickerCircle.Parent = UIElements.CanvasGroup_1
+
+UIElements.UIAspectRatioConstraint_15.Parent = UIElements.ColorPickerCircle
+
+UIElements.UICorner_49.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_49.Parent = UIElements.ColorPickerCircle
+
+UIElements.FakeCursor.BorderSizePixel = 0
+UIElements.FakeCursor.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+UIElements.FakeCursor.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.FakeCursor.Size = UDim2.new(0.1, 0, 0.1, 0)
+UIElements.FakeCursor.Name = "FakeCursor"
+UIElements.FakeCursor.Position = UDim2.new(0.5, 0, 0.5, 0)
+UIElements.FakeCursor.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.FakeCursor.BackgroundTransparency = 0.95
+UIElements.FakeCursor.Parent = UIElements.ColorPickerCircle
+
+UIElements.UIAspectRatioConstraint_16.Parent = UIElements.FakeCursor
+
+UIElements.UIStroke_27.Transparency = 0.6
+UIElements.UIStroke_27.Parent = UIElements.FakeCursor
+
+UIElements.UICorner_50.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_50.Parent = UIElements.FakeCursor
+
+UIElements.RightCont_1.BorderSizePixel = 0
+UIElements.RightCont_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.RightCont_1.AnchorPoint = Vector2.new(1, 0)
+UIElements.RightCont_1.Size = UDim2.new(0.5, 0, 0.537805, 0)
+UIElements.RightCont_1.Name = "RightCont"
+UIElements.RightCont_1.Position = UDim2.new(0.96137, 0, 0.279617, 0)
+UIElements.RightCont_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RightCont_1.BackgroundTransparency = 1
+UIElements.RightCont_1.Parent = UIElements.CanvasGroup_1
+
+UIElements.UIPadding_6.PaddingRight = UDim.new(0, 10)
+UIElements.UIPadding_6.Parent = UIElements.RightCont_1
+
+UIElements.HexCode_1.BorderSizePixel = 0
+UIElements.HexCode_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.HexCode_1.Size = UDim2.new(1, 0, 0.2, 0)
+UIElements.HexCode_1.Name = "HexCode"
+UIElements.HexCode_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.HexCode_1.BackgroundTransparency = 1
+UIElements.HexCode_1.Parent = UIElements.RightCont_1
+
+UIElements.TextBox_1.TextWrapped = true
+UIElements.TextBox_1.BorderSizePixel = 0
+UIElements.TextBox_1.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+UIElements.TextBox_1.Position = UDim2.new(1, 0, 0, 0)
+UIElements.TextBox_1.TextScaled = true
+UIElements.TextBox_1.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.TextBox_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.TextBox_1.AnchorPoint = Vector2.new(1, 0)
+UIElements.TextBox_1.TextSize = 14
+UIElements.TextBox_1.Size = UDim2.new(0.5, 0, 1, 0)
+UIElements.TextBox_1.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.TextBox_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextBox_1.Text = "#FFFFFF"
+UIElements.TextBox_1.ClearTextOnFocus = false
+UIElements.TextBox_1.Parent = UIElements.HexCode_1
+
+UIElements.UICorner_51.Parent = UIElements.TextBox_1
+
+UIElements.TextLabel_3.TextWrapped = true
+UIElements.TextLabel_3.BorderSizePixel = 0
+UIElements.TextLabel_3.TextScaled = true
+UIElements.TextLabel_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.TextLabel_3.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.TextLabel_3.TextSize = 14
+UIElements.TextLabel_3.Size = UDim2.new(0.457177, 0, 1, 0)
+UIElements.TextLabel_3.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.TextLabel_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextLabel_3.Text = "Hex Code"
+UIElements.TextLabel_3.BackgroundTransparency = 1
+UIElements.TextLabel_3.Parent = UIElements.HexCode_1
+
+UIElements.UIListLayout_8.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_8.VerticalAlignment = Enum.VerticalAlignment.Center
+UIElements.UIListLayout_8.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_8.Padding = UDim.new(0.15, 0)
+UIElements.UIListLayout_8.Parent = UIElements.RightCont_1
+
+UIElements.RGBandHSV_1.BorderSizePixel = 0
+UIElements.RGBandHSV_1.BackgroundColor3 = Color3.fromRGB(255, 20, 24)
+UIElements.RGBandHSV_1.Size = UDim2.new(1, 0, 0.8, 0)
+UIElements.RGBandHSV_1.Name = "RGBandHSV"
+UIElements.RGBandHSV_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RGBandHSV_1.BackgroundTransparency = 1
+UIElements.RGBandHSV_1.Parent = UIElements.RightCont_1
+
+UIElements.UIListLayout_9.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_9.Padding = UDim.new(0.1, 0)
+UIElements.UIListLayout_9.Parent = UIElements.RGBandHSV_1
+
+UIElements.RGB_1.BorderSizePixel = 0
+UIElements.RGB_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.RGB_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.RGB_1.Name = "RGB"
+UIElements.RGB_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RGB_1.BackgroundTransparency = 1
+UIElements.RGB_1.Parent = UIElements.RGBandHSV_1
+
+UIElements.R_1.BorderSizePixel = 0
+UIElements.R_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.R_1.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.R_1.Name = "R"
+UIElements.R_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.R_1.BackgroundTransparency = 1
+UIElements.R_1.Parent = UIElements.RGB_1
+
+UIElements.RLabel_1.TextWrapped = true
+UIElements.RLabel_1.BorderSizePixel = 0
+UIElements.RLabel_1.TextScaled = true
+UIElements.RLabel_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.RLabel_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.RLabel_1.Name = "RLabel"
+UIElements.RLabel_1.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.RLabel_1.TextSize = 14
+UIElements.RLabel_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.RLabel_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.RLabel_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RLabel_1.Text = "R"
+UIElements.RLabel_1.BackgroundTransparency = 1
+UIElements.RLabel_1.Parent = UIElements.R_1
+
+UIElements.RBox_1.TextWrapped = true
+UIElements.RBox_1.BorderSizePixel = 0
+UIElements.RBox_1.TextScaled = true
+UIElements.RBox_1.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.RBox_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.RBox_1.TextSize = 14
+UIElements.RBox_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.RBox_1.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.RBox_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.RBox_1.Text = "255"
+UIElements.RBox_1.Name = "RBox"
+UIElements.RBox_1.ClearTextOnFocus = false
+UIElements.RBox_1.Parent = UIElements.R_1
+
+UIElements.UICorner_52.Parent = UIElements.RBox_1
+
+UIElements.G_1.BorderSizePixel = 0
+UIElements.G_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.G_1.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.G_1.Name = "G"
+UIElements.G_1.Position = UDim2.new(0.333, 0, 0, 0)
+UIElements.G_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.G_1.BackgroundTransparency = 1
+UIElements.G_1.Parent = UIElements.RGB_1
+
+UIElements.GLabel_1.TextWrapped = true
+UIElements.GLabel_1.BorderSizePixel = 0
+UIElements.GLabel_1.TextScaled = true
+UIElements.GLabel_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.GLabel_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.GLabel_1.Name = "GLabel"
+UIElements.GLabel_1.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.GLabel_1.TextSize = 14
+UIElements.GLabel_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.GLabel_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.GLabel_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.GLabel_1.Text = "G"
+UIElements.GLabel_1.BackgroundTransparency = 1
+UIElements.GLabel_1.Parent = UIElements.G_1
+
+UIElements.GBox_1.TextWrapped = true
+UIElements.GBox_1.BorderSizePixel = 0
+UIElements.GBox_1.TextScaled = true
+UIElements.GBox_1.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.GBox_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.GBox_1.TextSize = 14
+UIElements.GBox_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.GBox_1.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.GBox_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.GBox_1.Text = "255"
+UIElements.GBox_1.Name = "GBox"
+UIElements.GBox_1.ClearTextOnFocus = false
+UIElements.GBox_1.Parent = UIElements.G_1
+
+UIElements.UICorner_53.Parent = UIElements.GBox_1
+
+UIElements.B_1.BorderSizePixel = 0
+UIElements.B_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.B_1.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.B_1.Name = "B"
+UIElements.B_1.Position = UDim2.new(0.667, 0, 0, 0)
+UIElements.B_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.B_1.BackgroundTransparency = 1
+UIElements.B_1.Parent = UIElements.RGB_1
+
+UIElements.BBox_1.TextWrapped = true
+UIElements.BBox_1.BorderSizePixel = 0
+UIElements.BBox_1.TextScaled = true
+UIElements.BBox_1.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.BBox_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.BBox_1.TextSize = 14
+UIElements.BBox_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.BBox_1.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.BBox_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BBox_1.Text = "255"
+UIElements.BBox_1.Name = "BBox"
+UIElements.BBox_1.ClearTextOnFocus = false
+UIElements.BBox_1.Parent = UIElements.B_1
+
+UIElements.UICorner_54.Parent = UIElements.BBox_1
+
+UIElements.BLabel_1.TextWrapped = true
+UIElements.BLabel_1.BorderSizePixel = 0
+UIElements.BLabel_1.TextScaled = true
+UIElements.BLabel_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.BLabel_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.BLabel_1.Name = "BLabel"
+UIElements.BLabel_1.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.BLabel_1.TextSize = 14
+UIElements.BLabel_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.BLabel_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.BLabel_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BLabel_1.Text = "B"
+UIElements.BLabel_1.BackgroundTransparency = 1
+UIElements.BLabel_1.Parent = UIElements.B_1
+
+UIElements.UIListLayout_10.FillDirection = Enum.FillDirection.Horizontal
+UIElements.UIListLayout_10.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_10.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_10.Padding = UDim.new(0, 3)
+UIElements.UIListLayout_10.Parent = UIElements.RGB_1
+
+UIElements.HSV_1.BorderSizePixel = 0
+UIElements.HSV_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.HSV_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.HSV_1.Name = "HSV"
+UIElements.HSV_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.HSV_1.BackgroundTransparency = 1
+UIElements.HSV_1.Parent = UIElements.RGBandHSV_1
+
+UIElements.Value_1.BorderSizePixel = 0
+UIElements.Value_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Value_1.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.Value_1.Name = "Value"
+UIElements.Value_1.Position = UDim2.new(0.667, 0, 0, 0)
+UIElements.Value_1.LayoutOrder = 2
+UIElements.Value_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Value_1.BackgroundTransparency = 1
+UIElements.Value_1.Parent = UIElements.HSV_1
+
+UIElements.VBox_1.TextWrapped = true
+UIElements.VBox_1.BorderSizePixel = 0
+UIElements.VBox_1.CursorPosition = -1
+UIElements.VBox_1.TextScaled = true
+UIElements.VBox_1.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.VBox_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.VBox_1.TextSize = 14
+UIElements.VBox_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.VBox_1.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.VBox_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.VBox_1.Text = "255"
+UIElements.VBox_1.Name = "VBox"
+UIElements.VBox_1.ClearTextOnFocus = false
+UIElements.VBox_1.Parent = UIElements.Value_1
+
+UIElements.UICorner_55.Parent = UIElements.VBox_1
+
+UIElements.VLabel_1.TextWrapped = true
+UIElements.VLabel_1.BorderSizePixel = 0
+UIElements.VLabel_1.TextScaled = true
+UIElements.VLabel_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.VLabel_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.VLabel_1.Name = "VLabel"
+UIElements.VLabel_1.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.VLabel_1.TextSize = 14
+UIElements.VLabel_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.VLabel_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.VLabel_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.VLabel_1.Text = "V"
+UIElements.VLabel_1.BackgroundTransparency = 1
+UIElements.VLabel_1.Parent = UIElements.Value_1
+
+UIElements.Saturation_1.BorderSizePixel = 0
+UIElements.Saturation_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Saturation_1.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.Saturation_1.Name = "Saturation"
+UIElements.Saturation_1.Position = UDim2.new(0.333, 0, 0, 0)
+UIElements.Saturation_1.LayoutOrder = 1
+UIElements.Saturation_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Saturation_1.BackgroundTransparency = 1
+UIElements.Saturation_1.Parent = UIElements.HSV_1
+
+UIElements.SBox_1.TextWrapped = true
+UIElements.SBox_1.BorderSizePixel = 0
+UIElements.SBox_1.TextScaled = true
+UIElements.SBox_1.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.SBox_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.SBox_1.TextSize = 14
+UIElements.SBox_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.SBox_1.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.SBox_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SBox_1.Text = "0"
+UIElements.SBox_1.Name = "SBox"
+UIElements.SBox_1.ClearTextOnFocus = false
+UIElements.SBox_1.Parent = UIElements.Saturation_1
+
+UIElements.UICorner_56.Parent = UIElements.SBox_1
+
+UIElements.SLabel_1.TextWrapped = true
+UIElements.SLabel_1.BorderSizePixel = 0
+UIElements.SLabel_1.TextScaled = true
+UIElements.SLabel_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.SLabel_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.SLabel_1.Name = "SLabel"
+UIElements.SLabel_1.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.SLabel_1.TextSize = 14
+UIElements.SLabel_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.SLabel_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.SLabel_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SLabel_1.Text = "S"
+UIElements.SLabel_1.BackgroundTransparency = 1
+UIElements.SLabel_1.Parent = UIElements.Saturation_1
+
+UIElements.Hue_1.BorderSizePixel = 0
+UIElements.Hue_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Hue_1.Size = UDim2.new(0.333, -3, 1, 0)
+UIElements.Hue_1.Name = "Hue"
+UIElements.Hue_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Hue_1.BackgroundTransparency = 1
+UIElements.Hue_1.Parent = UIElements.HSV_1
+
+UIElements.HBox_1.TextWrapped = true
+UIElements.HBox_1.BorderSizePixel = 0
+UIElements.HBox_1.TextScaled = true
+UIElements.HBox_1.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+UIElements.HBox_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.HBox_1.TextSize = 14
+UIElements.HBox_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.HBox_1.TextColor3 = Color3.fromRGB(203, 203, 203)
+UIElements.HBox_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.HBox_1.Text = "0"
+UIElements.HBox_1.Name = "HBox"
+UIElements.HBox_1.ClearTextOnFocus = false
+UIElements.HBox_1.Parent = UIElements.Hue_1
+
+UIElements.UICorner_57.Parent = UIElements.HBox_1
+
+UIElements.HLabel_1.TextWrapped = true
+UIElements.HLabel_1.BorderSizePixel = 0
+UIElements.HLabel_1.TextScaled = true
+UIElements.HLabel_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.HLabel_1.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.HLabel_1.Name = "HLabel"
+UIElements.HLabel_1.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.HLabel_1.TextSize = 14
+UIElements.HLabel_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.HLabel_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.HLabel_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.HLabel_1.Text = "H"
+UIElements.HLabel_1.BackgroundTransparency = 1
+UIElements.HLabel_1.Parent = UIElements.Hue_1
+
+UIElements.UIListLayout_11.FillDirection = Enum.FillDirection.Horizontal
+UIElements.UIListLayout_11.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_11.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_11.Padding = UDim.new(0, 3)
+UIElements.UIListLayout_11.Parent = UIElements.HSV_1
+
+UIElements.BrightnessSlider_1.BorderSizePixel = 0
+UIElements.BrightnessSlider_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.BrightnessSlider_1.AnchorPoint = Vector2.new(0.5, 1)
+UIElements.BrightnessSlider_1.Size = UDim2.new(0.352794, 0, 0.0963952, 0)
+UIElements.BrightnessSlider_1.Name = "BrightnessSlider"
+UIElements.BrightnessSlider_1.Position = UDim2.new(0.212908, 0, 0.947149, 0)
+UIElements.BrightnessSlider_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BrightnessSlider_1.Parent = UIElements.CanvasGroup_1
+
+UIElements.UICorner_58.CornerRadius = UDim.new(0, 5)
+UIElements.UICorner_58.Parent = UIElements.BrightnessSlider_1
+
+UIElements.UIGradient_6.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 0, 0)), ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255)) }
+UIElements.UIGradient_6.Rotation = 180
+UIElements.UIGradient_6.Parent = UIElements.BrightnessSlider_1
+
+UIElements.UIStroke_28.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_28.Transparency = 0.6
+UIElements.UIStroke_28.Parent = UIElements.BrightnessSlider_1
+
+UIElements.BrightnessSliderButton_1.ZIndex = 10
+UIElements.BrightnessSliderButton_1.BorderSizePixel = 0
+UIElements.BrightnessSliderButton_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.BrightnessSliderButton_1.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.BrightnessSliderButton_1.Name = "BrightnessSliderButton"
+UIElements.BrightnessSliderButton_1.TextSize = 14
+UIElements.BrightnessSliderButton_1.Size = UDim2.new(1, 0, 1, 0)
+UIElements.BrightnessSliderButton_1.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BrightnessSliderButton_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BrightnessSliderButton_1.Text = ""
+UIElements.BrightnessSliderButton_1.BackgroundTransparency = 1
+UIElements.BrightnessSliderButton_1.Parent = UIElements.BrightnessSlider_1
+
+UIElements.BrightnessSliderMarker.BorderSizePixel = 0
+UIElements.BrightnessSliderMarker.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.BrightnessSliderMarker.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.BrightnessSliderMarker.Size = UDim2.new(0.05, 0, 1.1, 0)
+UIElements.BrightnessSliderMarker.Name = "BrightnessSliderMarker"
+UIElements.BrightnessSliderMarker.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.BrightnessSliderMarker.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BrightnessSliderMarker.Parent = UIElements.BrightnessSlider_1
+
+UIElements.UIStroke_29.Transparency = 0.5
+UIElements.UIStroke_29.Parent = UIElements.BrightnessSliderMarker
+
+UIElements.UICorner_59.CornerRadius = UDim.new(0, 5)
+UIElements.UICorner_59.Parent = UIElements.BrightnessSliderMarker
+
+UIElements.UIAspectRatioConstraint_17.AspectRatio = 1.608
+UIElements.UIAspectRatioConstraint_17.Parent = UIElements.ColorPickerTemplate_1
+
+UIElements.TextBoxTemplate.BorderSizePixel = 0
+UIElements.TextBoxTemplate.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.TextBoxTemplate.Size = UDim2.new(0.867109, 0, 0.120705, 0)
+UIElements.TextBoxTemplate.Name = "TextBoxTemplate"
+UIElements.TextBoxTemplate.Position = UDim2.new(0.0664458, 0, 0.426593, 0)
+UIElements.TextBoxTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextBoxTemplate.Parent = UIElements.FeatureContainer_1
+
+UIElements.UICorner_60.Parent = UIElements.TextBoxTemplate
+
+UIElements.UIStroke_30.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_30.Transparency = 0.6
+UIElements.UIStroke_30.Parent = UIElements.TextBoxTemplate
+
+UIElements.Title_2.TextWrapped = true
+UIElements.Title_2.AutoButtonColor = false
+UIElements.Title_2.TextScaled = true
+UIElements.Title_2.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.Title_2.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.Title_2.Name = "Title"
+UIElements.Title_2.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Title_2.TextSize = 15
+UIElements.Title_2.Size = UDim2.new(0.303116, 0, 0.484515, 0)
+UIElements.Title_2.Position = UDim2.new(0.191825, 0, 0.483471, 0)
+UIElements.Title_2.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.Title_2.Text = "Text Box"
+UIElements.Title_2.BackgroundTransparency = 1
+UIElements.Title_2.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.Title_2.Parent = UIElements.TextBoxTemplate
+
+UIElements.UICorner_61.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_61.Parent = UIElements.Title_2
+
+UIElements.TextBox_2.TextWrapped = true
+UIElements.TextBox_2.BorderSizePixel = 0
+UIElements.TextBox_2.PlaceholderColor3 = Color3.fromRGB(80, 80, 80)
+UIElements.TextBox_2.Position = UDim2.new(0.661202, 0, 0.489393, 0)
+UIElements.TextBox_2.TextScaled = true
+UIElements.TextBox_2.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.TextBox_2.FontFace = Font.new("rbxasset://fonts/families/TitilliumWeb.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.TextBox_2.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.TextBox_2.PlaceholderText = "Input Text Here..."
+UIElements.TextBox_2.TextSize = 14
+UIElements.TextBox_2.Size = UDim2.new(0.560196, 0, 0.538787, 0)
+UIElements.TextBox_2.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.TextBox_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextBox_2.Text = ""
+UIElements.TextBox_2.ClearTextOnFocus = false
+UIElements.TextBox_2.Parent = UIElements.TextBoxTemplate
+
+UIElements.UICorner_62.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_62.Parent = UIElements.TextBox_2
+
+UIElements.UIStroke_31.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_31.Thickness = 1.2
+UIElements.UIStroke_31.Transparency = 0.7
+UIElements.UIStroke_31.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_31.Parent = UIElements.TextBox_2
+
+UIElements.UIAspectRatioConstraint_18.AspectRatio = 8.07068
+UIElements.UIAspectRatioConstraint_18.Parent = UIElements.TextBoxTemplate
+
+UIElements.SliderTemplate_1.BorderSizePixel = 0
+UIElements.SliderTemplate_1.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.SliderTemplate_1.Size = UDim2.new(0.867109, 0, 0.163161, 0)
+UIElements.SliderTemplate_1.Name = "SliderTemplate"
+UIElements.SliderTemplate_1.Position = UDim2.new(0.0664457, 0, 0.032386, 0)
+UIElements.SliderTemplate_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SliderTemplate_1.Parent = UIElements.FeatureContainer_1
+
+UIElements.UICorner_63.Parent = UIElements.SliderTemplate_1
+
+UIElements.UIStroke_32.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_32.Transparency = 0.6
+UIElements.UIStroke_32.Parent = UIElements.SliderTemplate_1
+
+UIElements.SliderBackground_1.BorderSizePixel = 0
+UIElements.SliderBackground_1.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+UIElements.SliderBackground_1.Size = UDim2.new(0.923382, 0, 0.17, 0)
+UIElements.SliderBackground_1.Name = "SliderBackground"
+UIElements.SliderBackground_1.Position = UDim2.new(0.0367861, 0, 0.641298, 0)
+UIElements.SliderBackground_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SliderBackground_1.Parent = UIElements.SliderTemplate_1
+
+UIElements.Fill_1.BorderSizePixel = 0
+UIElements.Fill_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Fill_1.Size = UDim2.new(0.5, 0, 1, 0)
+UIElements.Fill_1.Name = "Fill"
+UIElements.Fill_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Fill_1.Parent = UIElements.SliderBackground_1
+
+UIElements.UICorner_64.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_64.Parent = UIElements.Fill_1
+
+UIElements.UIStroke_33.Color = Color3.fromRGB(255, 255, 255)
+UIElements.UIStroke_33.Thickness = 1.1
+UIElements.UIStroke_33.Transparency = 0.6
+UIElements.UIStroke_33.Parent = UIElements.Fill_1
+
+UIElements.UIGradient_7.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(136, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(60, 42, 102)) }
+UIElements.UIGradient_7.Parent = UIElements.UIStroke_33
+
+UIElements.UIGradient_8.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(51, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(144, 88, 255)) }
+UIElements.UIGradient_8.Rotation = 90
+UIElements.UIGradient_8.Parent = UIElements.Fill_1
+
+UIElements.UICorner_65.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_65.Parent = UIElements.SliderBackground_1
+
+UIElements.UIStroke_34.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_34.Transparency = 0.6
+UIElements.UIStroke_34.Parent = UIElements.SliderBackground_1
+
+UIElements.TextButton_1.BorderSizePixel = 0
+UIElements.TextButton_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.TextButton_1.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.TextButton_1.TextSize = 14
+UIElements.TextButton_1.Size = UDim2.new(1, 0, 1, 0)
+UIElements.TextButton_1.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextButton_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TextButton_1.Text = ""
+UIElements.TextButton_1.BackgroundTransparency = 1
+UIElements.TextButton_1.Parent = UIElements.SliderBackground_1
+
+UIElements.NumberText_1.TextWrapped = true
+UIElements.NumberText_1.BorderSizePixel = 0
+UIElements.NumberText_1.PlaceholderColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.NumberText_1.Position = UDim2.new(0.726315, 0, 0.179, 0)
+UIElements.NumberText_1.BackgroundTransparency = 1
+UIElements.NumberText_1.TextScaled = true
+UIElements.NumberText_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.NumberText_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.NumberText_1.TextSize = 14
+UIElements.NumberText_1.Size = UDim2.new(0.23, 0, 0.265, 0)
+UIElements.NumberText_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.NumberText_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.NumberText_1.Text = "67 studs"
+UIElements.NumberText_1.Name = "NumberText"
+UIElements.NumberText_1.TextXAlignment = Enum.TextXAlignment.Right
+UIElements.NumberText_1.Parent = UIElements.SliderTemplate_1
+
+UIElements.UICorner_66.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_66.Parent = UIElements.NumberText_1
+
+UIElements.SliderClickDetection_1.ZIndex = 2
+UIElements.SliderClickDetection_1.BorderSizePixel = 0
+UIElements.SliderClickDetection_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.SliderClickDetection_1.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.SliderClickDetection_1.Name = "SliderClickDetection"
+UIElements.SliderClickDetection_1.TextSize = 14
+UIElements.SliderClickDetection_1.Size = UDim2.new(1, 0, 0.5, 0)
+UIElements.SliderClickDetection_1.Position = UDim2.new(0, 0, 0.5, 0)
+UIElements.SliderClickDetection_1.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SliderClickDetection_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SliderClickDetection_1.Text = ""
+UIElements.SliderClickDetection_1.BackgroundTransparency = 1
+UIElements.SliderClickDetection_1.Parent = UIElements.SliderTemplate_1
+
+UIElements.SliderText_1.TextWrapped = true
+UIElements.SliderText_1.AutoButtonColor = false
+UIElements.SliderText_1.TextScaled = true
+UIElements.SliderText_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.SliderText_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.SliderText_1.Name = "SliderText"
+UIElements.SliderText_1.TextSize = 15
+UIElements.SliderText_1.Size = UDim2.new(0.667202, 0, 0.3609, 0)
+UIElements.SliderText_1.Position = UDim2.new(0.0398633, 0, 0.135778, 0)
+UIElements.SliderText_1.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.SliderText_1.Text = "Slider"
+UIElements.SliderText_1.BackgroundTransparency = 1
+UIElements.SliderText_1.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.SliderText_1.Parent = UIElements.SliderTemplate_1
+
+UIElements.UICorner_67.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_67.Parent = UIElements.SliderText_1
+
+UIElements.KeybindTemplate.BorderSizePixel = 0
+UIElements.KeybindTemplate.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.KeybindTemplate.Size = UDim2.new(0.867109, 0, 0.120705, 0)
+UIElements.KeybindTemplate.Name = "KeybindTemplate"
+UIElements.KeybindTemplate.Position = UDim2.new(0.0664458, 0, 0.426593, 0)
+UIElements.KeybindTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.KeybindTemplate.Parent = UIElements.FeatureContainer_1
+
+UIElements.UICorner_68.Parent = UIElements.KeybindTemplate
+
+UIElements.UIStroke_35.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_35.Transparency = 0.6
+UIElements.UIStroke_35.Parent = UIElements.KeybindTemplate
+
+UIElements.Title_3.TextWrapped = true
+UIElements.Title_3.AutoButtonColor = false
+UIElements.Title_3.TextScaled = true
+UIElements.Title_3.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.Title_3.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.Title_3.Name = "Title"
+UIElements.Title_3.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Title_3.TextSize = 15
+UIElements.Title_3.Size = UDim2.new(0.569409, 0, 0.517575, 0)
+UIElements.Title_3.Position = UDim2.new(0.324972, 0, 0.5, 0)
+UIElements.Title_3.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.Title_3.Text = "My Keybind"
+UIElements.Title_3.BackgroundTransparency = 1
+UIElements.Title_3.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.Title_3.Parent = UIElements.KeybindTemplate
+
+UIElements.UICorner_69.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_69.Parent = UIElements.Title_3
+
+UIElements.KeybindFrame_1.BorderSizePixel = 0
+UIElements.KeybindFrame_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.KeybindFrame_1.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.KeybindFrame_1.Size = UDim2.new(0.383199, 0, 0.56, 0)
+UIElements.KeybindFrame_1.Name = "KeybindFrame"
+UIElements.KeybindFrame_1.Position = UDim2.new(0.781401, 0, 0.5, 0)
+UIElements.KeybindFrame_1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.KeybindFrame_1.Parent = UIElements.KeybindTemplate
+
+UIElements.UICorner_70.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_70.Parent = UIElements.KeybindFrame_1
+
+UIElements.UIStroke_36.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_36.Thickness = 1.2
+UIElements.UIStroke_36.Transparency = 0.7
+UIElements.UIStroke_36.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_36.Parent = UIElements.KeybindFrame_1
+
+UIElements.KeybindButton_2.TextWrapped = true
+UIElements.KeybindButton_2.AutoButtonColor = false
+UIElements.KeybindButton_2.TextScaled = true
+UIElements.KeybindButton_2.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.KeybindButton_2.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.KeybindButton_2.Name = "KeybindButton"
+UIElements.KeybindButton_2.TextSize = 16
+UIElements.KeybindButton_2.Size = UDim2.new(0.8, 0, 0.8, 0)
+UIElements.KeybindButton_2.Position = UDim2.new(0.1, 0, 0.1, 0)
+UIElements.KeybindButton_2.TextColor3 = Color3.fromRGB(124, 124, 124)
+UIElements.KeybindButton_2.Text = "Set Bind"
+UIElements.KeybindButton_2.BackgroundTransparency = 1
+UIElements.KeybindButton_2.Parent = UIElements.KeybindFrame_1
+
+UIElements.UIAspectRatioConstraint_19.AspectRatio = 8.07068
+UIElements.UIAspectRatioConstraint_19.Parent = UIElements.KeybindTemplate
+
+UIElements.Title_4.TextWrapped = true
+UIElements.Title_4.TextScaled = true
+UIElements.Title_4.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+UIElements.Title_4.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.Title_4.Name = "Title"
+UIElements.Title_4.Selectable = true
+UIElements.Title_4.Position = UDim2.new(0.288891, 0, 0.0492829, 0)
+UIElements.Title_4.Size = UDim2.new(0.420425, 0, 0.0762619, 0)
+UIElements.Title_4.TextColor3 = Color3.fromRGB(173, 173, 173)
+UIElements.Title_4.BorderColor3 = Color3.fromRGB(27, 42, 53)
+UIElements.Title_4.Text = "Toggle"
+UIElements.Title_4.BackgroundTransparency = 1
+UIElements.Title_4.Parent = UIElements.ToggleWindowTemplate
+
+UIElements.UICorner_71.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_71.Parent = UIElements.Title_4
+
+UIElements.Main.BorderSizePixel = 0
+UIElements.Main.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+UIElements.Main.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Main.Size = UDim2.new(0.335, 0, 0.397, 0)
+UIElements.Main.Name = "Main"
+UIElements.Main.Position = UDim2.new(0.349, 0, 0.494, 0)
+UIElements.Main.Parent = UIElements.Library
+
+UIElements.UICorner_72.CornerRadius = UDim.new(0, 12)
+UIElements.UICorner_72.Parent = UIElements.Main
+
+UIElements.UIStroke_37.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_37.Transparency = 0.6
+UIElements.UIStroke_37.Parent = UIElements.Main
+
+UIElements.UIAspectRatioConstraint_20.AspectRatio = 1.5
+UIElements.UIAspectRatioConstraint_20.Parent = UIElements.Main
+
+UIElements.Logo.BorderSizePixel = 0
+UIElements.Logo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Logo.Name = "Logo"
+UIElements.Logo.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Logo.Image = "rbxassetid://109097471787796"
+UIElements.Logo.ImageContent = Content.fromUri("rbxassetid://109097471787796")
+UIElements.Logo.Size = UDim2.new(0.131753, 0, 0.107783, 0)
+UIElements.Logo.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Logo.BackgroundTransparency = 1
+UIElements.Logo.Position = UDim2.new(0.133, 0, 0.1, 0)
+UIElements.Logo.ScaleType = Enum.ScaleType.Fit
+UIElements.Logo.Parent = UIElements.Main
+
+UIElements.UIDragDetector_2.Parent = UIElements.Main
+
+UIElements.BodyCG.BorderSizePixel = 0
+UIElements.BodyCG.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.BodyCG.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BodyCG.Size = UDim2.new(0.711091, 0, 0.74149, 0)
+UIElements.BodyCG.Position = UDim2.new(0.25, 0, 0.207, 0)
+UIElements.BodyCG.BackgroundTransparency = 1
+UIElements.BodyCG.Name = "BodyCG"
+UIElements.BodyCG.Parent = UIElements.Main
+
+UIElements.BodyTemplate.BorderSizePixel = 0
+UIElements.BodyTemplate.CanvasSize = UDim2.new(0, 0, 1, 0)
+UIElements.BodyTemplate.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+UIElements.BodyTemplate.Active = true
+UIElements.BodyTemplate.AutomaticCanvasSize = Enum.AutomaticSize.XY
+UIElements.BodyTemplate.Size = UDim2.new(1, 0, 1, 0)
+UIElements.BodyTemplate.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BodyTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.BodyTemplate.ScrollBarThickness = 0
+UIElements.BodyTemplate.Name = "BodyTemplate"
+UIElements.BodyTemplate.ElasticBehavior = Enum.ElasticBehavior.Never
+UIElements.BodyTemplate.Parent = UIElements.BodyCG
+
+UIElements.ToggleFeatureTemplate.BorderSizePixel = 0
+UIElements.ToggleFeatureTemplate.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.ToggleFeatureTemplate.Size = UDim2.new(0.917912, 0, 0.11824, 0)
+UIElements.ToggleFeatureTemplate.Name = "ToggleFeatureTemplate"
+UIElements.ToggleFeatureTemplate.Position = UDim2.new(0.025, 0, 0.0400604, 0)
+UIElements.ToggleFeatureTemplate.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleFeatureTemplate.Parent = UIElements.BodyTemplate
+
+UIElements.SetBind.BorderSizePixel = 0
+UIElements.SetBind.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.SetBind.AnchorPoint = Vector2.new(0.5, 0)
+UIElements.SetBind.Size = UDim2.new(0.147807, 0, 0.441515, 0)
+UIElements.SetBind.Name = "SetBind"
+UIElements.SetBind.Position = UDim2.new(0.621442, 0, 0.288131, 0)
+UIElements.SetBind.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.SetBind.Parent = UIElements.ToggleFeatureTemplate
+
+UIElements.SetBind_1.TextWrapped = true
+UIElements.SetBind_1.AutoButtonColor = false
+UIElements.SetBind_1.TextScaled = true
+UIElements.SetBind_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.SetBind_1.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.SetBind_1.Name = "SetBind"
+UIElements.SetBind_1.TextSize = 16
+UIElements.SetBind_1.Size = UDim2.new(0.8, 0, 0.8, 0)
+UIElements.SetBind_1.Position = UDim2.new(0.1, 0, 0.1, 0)
+UIElements.SetBind_1.TextColor3 = Color3.fromRGB(124, 124, 124)
+UIElements.SetBind_1.Text = "Set Bind"
+UIElements.SetBind_1.BackgroundTransparency = 1
+UIElements.SetBind_1.Parent = UIElements.SetBind
+
+UIElements.UIStroke_38.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_38.Thickness = 1.2
+UIElements.UIStroke_38.Transparency = 0.7
+UIElements.UIStroke_38.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_38.Parent = UIElements.SetBind
+
+UIElements.UICorner_73.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_73.Parent = UIElements.SetBind
+
+UIElements.OpenFrame_2.BorderSizePixel = 0
+UIElements.OpenFrame_2.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.OpenFrame_2.Size = UDim2.new(0.126313, 0, 0.441515, 0)
+UIElements.OpenFrame_2.Name = "OpenFrame"
+UIElements.OpenFrame_2.Position = UDim2.new(0.715479, 0, 0.288131, 0)
+UIElements.OpenFrame_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.OpenFrame_2.Parent = UIElements.ToggleFeatureTemplate
+
+UIElements.OpenBtn_2.TextWrapped = true
+UIElements.OpenBtn_2.AutoButtonColor = false
+UIElements.OpenBtn_2.TextScaled = true
+UIElements.OpenBtn_2.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.OpenBtn_2.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.OpenBtn_2.Name = "OpenBtn"
+UIElements.OpenBtn_2.TextSize = 16
+UIElements.OpenBtn_2.Size = UDim2.new(0.8, 0, 0.8, 0)
+UIElements.OpenBtn_2.Position = UDim2.new(0.1, 0, 0.1, 0)
+UIElements.OpenBtn_2.TextColor3 = Color3.fromRGB(124, 124, 124)
+UIElements.OpenBtn_2.Text = "Open"
+UIElements.OpenBtn_2.BackgroundTransparency = 1
+UIElements.OpenBtn_2.Parent = UIElements.OpenFrame_2
+
+UIElements.UIStroke_39.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_39.Thickness = 1.2
+UIElements.UIStroke_39.Transparency = 0.7
+UIElements.UIStroke_39.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_39.Parent = UIElements.OpenFrame_2
+
+UIElements.UICorner_74.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_74.Parent = UIElements.OpenFrame_2
+
+UIElements.Name_3.TextWrapped = true
+UIElements.Name_3.AutoButtonColor = false
+UIElements.Name_3.TextScaled = true
+UIElements.Name_3.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+UIElements.Name_3.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.Name_3.Name = "Name"
+UIElements.Name_3.AnchorPoint = Vector2.new(0, 0.5)
+UIElements.Name_3.TextSize = 20
+UIElements.Name_3.Size = UDim2.new(0.349152, 0, 0.38116, 0)
+UIElements.Name_3.Position = UDim2.new(0.029, 0, 0.5, 0)
+UIElements.Name_3.TextColor3 = Color3.fromRGB(157, 157, 157)
+UIElements.Name_3.Text = "Toggle"
+UIElements.Name_3.BackgroundTransparency = 1
+UIElements.Name_3.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.Name_3.Parent = UIElements.ToggleFeatureTemplate
+
+UIElements.UICorner_75.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_75.Parent = UIElements.Name_3
+
+UIElements.Toggle_2.BorderSizePixel = 0
+UIElements.Toggle_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Toggle_2.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Toggle_2.Size = UDim2.new(0.132703, 0, 0.560301, 0)
+UIElements.Toggle_2.Name = "Toggle"
+UIElements.Toggle_2.Position = UDim2.new(0.930071, 0, 0.485814, 0)
+UIElements.Toggle_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Toggle_2.Parent = UIElements.ToggleFeatureTemplate
+
+UIElements.UIAspectRatioConstraint_21.AspectRatio = 2
+UIElements.UIAspectRatioConstraint_21.Parent = UIElements.Toggle_2
+
+UIElements.ToggleBtn_2.BorderSizePixel = 0
+UIElements.ToggleBtn_2.TextTransparency = 1
+UIElements.ToggleBtn_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ToggleBtn_2.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UIElements.ToggleBtn_2.Name = "ToggleBtn"
+UIElements.ToggleBtn_2.TextSize = 14
+UIElements.ToggleBtn_2.Size = UDim2.new(1, 0, 1, 0)
+UIElements.ToggleBtn_2.TextColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleBtn_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleBtn_2.Text = ""
+UIElements.ToggleBtn_2.BackgroundTransparency = 1
+UIElements.ToggleBtn_2.Parent = UIElements.Toggle_2
+
+UIElements.UICorner_76.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_76.Parent = UIElements.Toggle_2
+
+UIElements.Gradient_1.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(51, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(144, 88, 255)) }
+UIElements.Gradient_1.Rotation = 90
+UIElements.Gradient_1.Name = "Gradient"
+UIElements.Gradient_1.Parent = UIElements.Toggle_2
+
+UIElements.Background_2.BorderSizePixel = 0
+UIElements.Background_2.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+UIElements.Background_2.Size = UDim2.new(1, 0, 1, 0)
+UIElements.Background_2.Name = "Background"
+UIElements.Background_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Background_2.Parent = UIElements.Toggle_2
+
+UIElements.UICorner_77.CornerRadius = UDim.new(1, 0)
+UIElements.UICorner_77.Parent = UIElements.Background_2
+
+UIElements.ToggleDot_2.BorderSizePixel = 0
+UIElements.ToggleDot_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.ToggleDot_2.Name = "ToggleDot"
+UIElements.ToggleDot_2.AnchorPoint = Vector2.new(0.5, 0)
+UIElements.ToggleDot_2.Image = "rbxassetid://6755657357"
+UIElements.ToggleDot_2.ImageContent = Content.fromUri("rbxassetid://6755657357")
+UIElements.ToggleDot_2.Size = UDim2.new(0.481, 0, 0.774, 0)
+UIElements.ToggleDot_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.ToggleDot_2.BackgroundTransparency = 1
+UIElements.ToggleDot_2.Position = UDim2.new(0.25, 0, 0.107, 0)
+UIElements.ToggleDot_2.Parent = UIElements.Toggle_2
+
+UIElements.UIAspectRatioConstraint_22.Parent = UIElements.ToggleDot_2
+
+UIElements.UIStroke_40.Color = Color3.fromRGB(42, 42, 42)
+UIElements.UIStroke_40.Parent = UIElements.Toggle_2
+
+UIElements.UIStroke_41.Color = Color3.fromRGB(81, 78, 97)
+UIElements.UIStroke_41.Transparency = 0.6
+UIElements.UIStroke_41.Parent = UIElements.ToggleFeatureTemplate
+
+UIElements.UICorner_78.Parent = UIElements.ToggleFeatureTemplate
+
+UIElements.UIPadding_7.PaddingTop = UDim.new(0.04, 0)
+UIElements.UIPadding_7.Parent = UIElements.BodyTemplate
+
+UIElements.UIListLayout_12.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_12.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_12.Padding = UDim.new(0.035, 0)
+UIElements.UIListLayout_12.Parent = UIElements.BodyTemplate
+
+UIElements.UICorner_79.Parent = UIElements.BodyCG
+
+UIElements.UIStroke_42.Color = Color3.fromRGB(50, 50, 50)
+UIElements.UIStroke_42.Parent = UIElements.BodyCG
+
+UIElements.UIPadding_8.PaddingBottom = UDim.new(0, 5)
+UIElements.UIPadding_8.PaddingTop = UDim.new(0, 5)
+UIElements.UIPadding_8.PaddingLeft = UDim.new(0, 5)
+UIElements.UIPadding_8.PaddingRight = UDim.new(0, 5)
+UIElements.UIPadding_8.Parent = UIElements.BodyCG
+
+UIElements.TabContainer.ScrollingDirection = Enum.ScrollingDirection.X
+UIElements.TabContainer.BorderSizePixel = 0
+UIElements.TabContainer.CanvasSize = UDim2.new(1, 0, 0, 0)
+UIElements.TabContainer.ClipsDescendants = false
+UIElements.TabContainer.Position = UDim2.new(0.05, 0, 0.207, 0)
+UIElements.TabContainer.BackgroundTransparency = 1
+UIElements.TabContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.TabContainer.Active = true
+UIElements.TabContainer.AutomaticCanvasSize = Enum.AutomaticSize.X
+UIElements.TabContainer.Size = UDim2.new(0.166055, 0, 0.746179, 0)
+UIElements.TabContainer.ScrollBarImageColor3 = Color3.fromRGB(221, 221, 221)
+UIElements.TabContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.TabContainer.ScrollBarThickness = 0
+UIElements.TabContainer.Name = "TabContainer"
+UIElements.TabContainer.ScrollingEnabled = false
+UIElements.TabContainer.Parent = UIElements.Main
+
+UIElements.TabTemplate.AutoButtonColor = false
+UIElements.TabTemplate.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.TabTemplate.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+UIElements.TabTemplate.Name = "TabTemplate"
+UIElements.TabTemplate.TextSize = 16
+UIElements.TabTemplate.Size = UDim2.new(1.01715, 6, 0.0822677, 0)
+UIElements.TabTemplate.Position = UDim2.new(-0.0378457, 0, 0, 0)
+UIElements.TabTemplate.TextColor3 = Color3.fromRGB(173, 173, 173)
+UIElements.TabTemplate.Text = ""
+UIElements.TabTemplate.Parent = UIElements.TabContainer
+
+UIElements.UICorner_80.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_80.Parent = UIElements.TabTemplate
+
+UIElements.UIStroke_43.Color = Color3.fromRGB(50, 50, 50)
+UIElements.UIStroke_43.Thickness = 1.4
+UIElements.UIStroke_43.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIElements.UIStroke_43.Parent = UIElements.TabTemplate
+
+UIElements.UIGradient_9.Enabled = false
+UIElements.UIGradient_9.Color = ColorSequence.new{ ColorSequenceKeypoint.new(0, Color3.fromRGB(51, 0, 255)), ColorSequenceKeypoint.new(1, Color3.fromRGB(144, 88, 255)) }
+UIElements.UIGradient_9.Rotation = 90
+UIElements.UIGradient_9.Parent = UIElements.TabTemplate
+
+UIElements.Background_3.Interactable = false
+UIElements.Background_3.BorderSizePixel = 0
+UIElements.Background_3.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+UIElements.Background_3.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Background_3.Size = UDim2.new(1, 0, 1, 0)
+UIElements.Background_3.Name = "Background"
+UIElements.Background_3.Position = UDim2.new(0.5, 0, 0.5, 0)
+UIElements.Background_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Background_3.Parent = UIElements.TabTemplate
+
+UIElements.UICorner_81.CornerRadius = UDim.new(0, 6)
+UIElements.UICorner_81.Parent = UIElements.Background_3
+
+UIElements.Icon.ImageColor3 = Color3.fromRGB(199, 199, 199)
+UIElements.Icon.BorderSizePixel = 0
+UIElements.Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+UIElements.Icon.Name = "Icon"
+UIElements.Icon.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.Icon.Image = "rbxassetid://6034227067"
+UIElements.Icon.ImageContent = Content.fromUri("rbxassetid://6034227067")
+UIElements.Icon.Size = UDim2.new(0.286578, 0, 0.668682, 0)
+UIElements.Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+UIElements.Icon.BackgroundTransparency = 1
+UIElements.Icon.Position = UDim2.new(0.175, 0, 0.5, 0)
+UIElements.Icon.ScaleType = Enum.ScaleType.Fit
+UIElements.Icon.Parent = UIElements.TabTemplate
+
+UIElements.TabText.TextWrapped = true
+UIElements.TabText.TextScaled = true
+UIElements.TabText.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+UIElements.TabText.FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+UIElements.TabText.Name = "TabText"
+UIElements.TabText.AnchorPoint = Vector2.new(0.5, 0.5)
+UIElements.TabText.Selectable = true
+UIElements.TabText.Position = UDim2.new(0.655, 0, 0.5, 0)
+UIElements.TabText.Size = UDim2.new(0.563, 0, 0.423, 0)
+UIElements.TabText.TextColor3 = Color3.fromRGB(173, 173, 173)
+UIElements.TabText.BorderColor3 = Color3.fromRGB(27, 42, 53)
+UIElements.TabText.Text = "Throwing"
+UIElements.TabText.BackgroundTransparency = 1
+UIElements.TabText.TextXAlignment = Enum.TextXAlignment.Left
+UIElements.TabText.Parent = UIElements.TabTemplate
+
+UIElements.UIListLayout_13.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIElements.UIListLayout_13.SortOrder = Enum.SortOrder.LayoutOrder
+UIElements.UIListLayout_13.Padding = UDim.new(0.019, 0)
+UIElements.UIListLayout_13.Parent = UIElements.TabContainer
+
+UIElements.UIPadding_9.Parent = UIElements.TabContainer
+
+-- Functions
+local function round(num, decimals)
+	local power = 10 ^ decimals
+	return math.floor(num * power + 0.5) / power
+end
+
+local function roundDownToIncrement(value, increment)
+	local result = math.floor(value / increment) * increment
+	local decimals = tostring(increment):match("%.(%d+)$")
+	return round(result, decimals and #decimals or 0)
+end
+
+-- Library
+
+local GUI = UIElements.Library
+
+-- Hide all templates
+for _,v in pairs(GUI:GetDescendants()) do
+	if v.Name:find('Template') then
+		pcall(function()
+			v.Visible = false
+		end)
+	end
+end
+
+local UI = {}
+
+UI.ScreenGui = GUI
+UI.SelectedPage = nil
+UI.Visible = true
+UI.Pages = {}
+
+function UI.SetSelectedPage(ID)end
+function UI.SetVisible(v)end
+
+-- Auto resize tab container scrollin frame canvas size
+local function AutoSizeTabContainerScrollingFrame()
+	local ScrollingFrame = GUI.Main.TabContainer
+	
+	ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.X
+
+	local PaddingBetween = ScrollingFrame.UIListLayout.Padding.Offset
+	local TopPadding = 0--ScrollingFrame.UIPadding.PaddingTop.Offset
+	local BottomPadding = 0--ScrollingFrame.UIPadding.PaddingBottom.Offset
+
+	local items = {}
+	for _,v in pairs(ScrollingFrame:GetChildren()) do
+		if v:IsA('TextButton') and v.Visible then
+			table.insert(items,v)
+		end
+	end
+
+	local combinedElementHeight = 0
+	for _,v in pairs(items) do
+		combinedElementHeight += v.AbsoluteSize.X
+	end
+	combinedElementHeight += PaddingBetween*(#items-1) + TopPadding + BottomPadding
+
+	ScrollingFrame.CanvasSize = UDim2.new(0,combinedElementHeight,0,0)
+	
+	print(combinedElementHeight)
+end
+
+--spawn(function()
+--	while wait() do
+--		AutoSizeTabContainerScrollingFrame()
+--	end
+--end)
+
+function UI.CreatePage(Name,ID,icon)
+	-- Init page object
+	local Page = {}
+	
+	-- Create tab
+	local tabTempl = GUI.Main.TabContainer.TabTemplate
+	tabTempl.Visible = false
+	local tabEl = tabTempl:Clone()
+	tabEl.Parent = tabTempl.Parent
+	tabEl.Visible = true
+	tabEl.TabText.Text = Name
+	tabEl.Name = 'Tab-' .. ID
+	
+	-- Create page body
+	local bodyTempl = GUI.Main.BodyCG.BodyTemplate
+	bodyTempl.Visible = false
+	local bodyEl = bodyTempl:Clone()
+	bodyEl.Parent = bodyTempl.Parent
+	bodyEl.Visible = false
+	bodyEl.Name = 'Body-' .. ID
+	
+	bodyEl.Visible = false -- Default
+	
+	-- Set page tab and body properties
+	Page.TabElement = tabEl
+	Page.BodyElement = bodyEl
+	
+	-- Icon
+	function Page.SetIcon(icon)
+		tabEl.Icon.Image = icon
+	end
+	
+	-- Default icon if exists
+	if icon then
+		tabEl.Icon.Image = icon
+	else
+		tabEl.Icon.Image = 'rbxassetid://0'
+	end
+	
+	-- Page select / deselect function
+	function Page.Deselect()
+		-- Set appearance of tab
+		tws:Create(tabEl.Background,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ BackgroundTransparency = .001 }):Play()
+		tws:Create(bodyEl.Parent,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ GroupTransparency = 1 }):Play()
+		tws:Create(tabEl.TabText,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ TextColor3 = rgb(173, 173, 173) }):Play()
+		tws:Create(tabEl.Icon,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ ImageColor3 = rgb(199, 199, 199) }):Play()
+		wait(.1)
+		tabEl.UIGradient.Enabled = false
+		Page.BodyElement.Visible = false
+		-- tws:Create(bodyEl.Parent,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ GroupTransparency = 0 }):Play()
+	end
+	function Page.Select()
+		-- Don't allow user to select page that is already selected
+		if UI.SelectedPage == Page then return end
+		
+		tabEl.UIGradient.Enabled = true
+		
+		-- Set appearance of tab
+		tws:Create(tabEl.Background,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ BackgroundTransparency = 1 }):Play()
+		tws:Create(tabEl.TabText,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ TextColor3 = rgb(255, 255, 255) }):Play()
+		tws:Create(tabEl.Icon,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ ImageColor3 = rgb(255, 255, 255) }):Play()
+		
+		-- Deselect last page
+		if UI.SelectedPage then
+			UI.SelectedPage.Deselect()
+			wait()
+			UI.SelectedPage = nil
+		end
+		
+		if bodyEl.Parent.GroupTransparency ~= 1 then
+			tws:Create(bodyEl.Parent,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ GroupTransparency = 1 }):Play()
+			wait(.1)
+		end
+		
+		Page.BodyElement.Visible = true
+		tws:Create(bodyEl.Parent,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ GroupTransparency = 0 }):Play()
+		
+		-- Set selected page
+		UI.SelectedPage = Page
+	end
+	
+	-- Detect tab select
+	tabEl.MouseButton1Click:Connect(function()
+		Page.Select()
+	end)
+	
+	-- Slider
+	function Page.CreateFeature(options)
+		-- Init feature object
+		local Feature = {}
+
+		if options.Type == 'Toggle' then
+			-- Default options
+			options.OnToggle = options.OnToggle or function()end
+			
+			-- Init properties
+			Feature.ToggleState = options.DefaultToggleState or false
+			
+			-- Create feature element
+			local featureTempl = bodyEl.ToggleFeatureTemplate
+			featureTempl.Visible = false
+			local featureEl = featureTempl:Clone()
+			featureEl.Parent = featureTempl.Parent
+			featureEl.Visible = true
+			featureEl.Name = 'ToggleFeature-' .. options.ID
+			featureEl:FindFirstChild('Name').Text = options.Name
+			
+			Feature.FeatureElement = featureEl
+			
+			-- Toggle
+			local toggle = featureEl.Toggle
+			local toggleBtn = toggle.ToggleBtn
+			
+			-- Toggle state functions
+			function Feature.SetToggleState(state)
+				Feature.ToggleState = state
+				if state == true then
+					-- Tween toggle dot position
+					toggle.Gradient.Enabled = true
+					tws:Create(toggle.ToggleDot,TweenInfo.new(.075,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Position = UDim2.new(.75,0,.107,0) }):Play()
+					tws:Create(toggle.Background,TweenInfo.new(.075,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Transparency = 1 }):Play()
+
+				else
+					-- Tween toggle dot position
+					tws:Create(toggle.ToggleDot,TweenInfo.new(.075,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Position = UDim2.new(.25,0,.107,0) }):Play()
+					tws:Create(toggle.Background,TweenInfo.new(.075,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Transparency = 0 }):Play()
+					wait(.075)
+					toggle.Gradient.Enabled = false
+				end
+				if options.OnToggle then
+					options.OnToggle(state)
+				end
+			end
+			
+			-- Toggle button click detection
+			toggleBtn.MouseButton1Click:Connect(function()
+				Feature.SetToggleState(not Feature.ToggleState)
+			end)
+			
+			-- Keybind
+			local keybindBtn = featureEl.SetBind.SetBind
+			local initialKeybindBtnText = keybindBtn.Text
+			if options.DefaultBind then
+				Feature.Bind = options.DefaultBind
+				keybindBtn.Text = Feature.Bind
+			end
+			
+			-- Detect keybind button press (to set keybind)
+			keybindBtn.MouseButton1Click:Connect(function()
+				keybindBtn.Text = '...'
+				
+				-- Focus fake text box
+				local fakeTB = create('TextBox',GUI,{
+					Position = UDim2.new(5,0,0,0)
+				})
+				fakeTB:CaptureFocus()
+				
+				local conn;conn= uis.InputBegan:Connect(function(io,gpe)
+					local k = io.KeyCode
+					if k == keys.Escape then
+						keybindBtn.Text = initialKeybindBtnText
+						Feature.Bind = nil
+						fakeTB:Destroy()
+						conn:Disconnect()
+					elseif io.KeyCode ~= nil then
+						wait()
+						Feature.Bind = k.Name
+						keybindBtn.Text = k.Name
+						fakeTB:Destroy()
+						conn:Disconnect()
+					end
+				end)
+			end)
+			
+			-- Detect bind pressed
+			uis.InputBegan:Connect(function(io,gpe)
+				if not Feature.Bind then return end
+				if not gpe and io.KeyCode == Enum.KeyCode[Feature.Bind] then
+					Feature.SetToggleState(not Feature.ToggleState)
+				end
+			end)
+			
+			-- Create feature window element
+			local windowTempl = GUI.ToggleWindowTemplate
+			local windowEl = windowTempl:Clone()
+			windowEl.Parent = windowTempl.Parent
+			windowEl.Name = 'ToggleFeatureWindow-' .. options.ID
+			windowEl.Visible = true
+			windowEl.GroupTransparency = 1
+			windowEl.UIStroke.Transparency = 1
+			windowEl.Title.Text = options.Name
+			windowEl.Position = UDim2.new(.5,0,.5,0)
+			
+			Feature.WindowElement = windowEl
+			
+			-- Feature window object
+			Feature.Window = {
+				Visible = false,
+				Element = windowEl
+			}
+			
+			-- Detect open/close window button press
+			local windowLastPos = windowEl.Position
+			local openCloseWindowButton = featureEl.OpenFrame.OpenBtn
+			openCloseWindowButton.MouseButton1Click:Connect(function()
+				if Feature.Window.Visible then
+					tws:Create(windowEl,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ GroupTransparency = 1 }):Play()
+					tws:Create(windowEl.UIStroke,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Transparency = 1 }):Play()
+					openCloseWindowButton.Text = 'Open'
+					Feature.Window.Visible = false
+					windowLastPos = windowEl.Position
+					wait(.1)
+					windowEl.Position = UDim2.new(-10,0,0,0)
+				else
+					windowEl.Position = windowLastPos
+					tws:Create(windowEl,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ GroupTransparency = 0 }):Play()
+					tws:Create(windowEl.UIStroke,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Transparency = .6 }):Play()
+					openCloseWindowButton.Text = 'Close'
+					Feature.Window.Visible = true
+				end
+			end)
+			
+			-- Windowless
+			if options.Windowless then
+				windowEl.Parent = nil
+				openCloseWindowButton.Parent.Parent = nil
+				keybindBtn.Parent.Position = openCloseWindowButton.Parent.Position
+				keybindBtn.Parent.AnchorPoint = openCloseWindowButton.Parent.AnchorPoint
+			end
+			
+			-- Default
+			spawn(function()
+				tws:Create(windowEl,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ GroupTransparency = 1 }):Play()
+				tws:Create(windowEl.UIStroke,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Transparency = 1 }):Play()
+				openCloseWindowButton.Text = 'Open'
+				Feature.Window.Visible = false
+				windowLastPos = windowEl.Position
+				wait(.1)
+				windowEl.Position = UDim2.new(-10,0,0,0)
+			end)
+			
+			-- Toggle
+			function Feature.CreateToggle(options)
+				-- Default values for options
+				options.OnBindSet = options.OnBindSet or function()end
+				options.OnToggle = options.OnToggle or function()end
+				
+				-- Init toggle object
+				local Toggle = {}
+				
+				-- Create toggle element
+				local toggleTempl = windowEl.FeatureContainer.ToggleTemplate
+				local toggleEl = toggleTempl:Clone()
+				toggleEl.Parent = toggleTempl.Parent
+				toggleEl.Visible = true
+				toggleEl.Name = 'Toggle-' .. options.ID
+				toggleEl.ToggleText.Text = options.Name
+				
+				-- Resize scrolling frame
+				Feature.AutoSizeScrollingFrame()
+				
+				-- Keybind
+				Toggle.Bind = options.Bind
+				
+				-- Toggling
+				Toggle.ToggleState = options.DefaultToggleState or false
+				
+				function Toggle.SetToggleState(state)
+					Toggle.ToggleState = state
+					if state == true then
+						-- Tween toggle dot position
+						tws:Create(toggleEl.Toggle.ToggleDot,TweenInfo.new(.075,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Position = UDim2.new(.75,0,.107,0) }):Play()
+						tws:Create(toggleEl.Toggle.Background,TweenInfo.new(.075,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Transparency = 1 }):Play()
+
+					else
+						-- Tween toggle dot position
+						tws:Create(toggleEl.Toggle.ToggleDot,TweenInfo.new(.075,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Position = UDim2.new(.25,0,.107,0) }):Play()
+						tws:Create(toggleEl.Toggle.Background,TweenInfo.new(.075,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Transparency = 0 }):Play()
+					end
+					if options.OnToggle then
+						options.OnToggle(state)
+					end
+				end
+				
+				-- Toggle button press
+				toggleEl.Toggle.ToggleBtn.MouseButton1Click:Connect(function()
+					Toggle.SetToggleState(not Toggle.ToggleState)
+				end)
+				
+				-- Keybind button
+				local keybindBtn = toggleEl.KeybindFrame.KeybindButton
+				local initialKeybindBtnText = keybindBtn.Text
+				
+				-- Default
+				if Toggle.Bind then
+					keybindBtn.Text = Toggle.Bind
+				end
+				
+				keybindBtn.MouseButton1Click:Connect(function()
+					keybindBtn.Text = '...'
+
+					-- Focus fake text box
+					local fakeTB = create('TextBox',GUI,{
+						Position = UDim2.new(5,0,0,0)
+					})
+					fakeTB:CaptureFocus()
+
+					local conn;conn= uis.InputBegan:Connect(function(io,gpe)
+						local k = io.KeyCode
+						if k == keys.Escape then
+							keybindBtn.Text = initialKeybindBtnText
+							Toggle.Bind = nil
+							fakeTB:Destroy()
+							conn:Disconnect()
+							options.OnBindSet(Toggle.Bind)
+						elseif io.KeyCode ~= nil then
+							wait()
+							Toggle.Bind = k.Name
+							keybindBtn.Text = k.Name
+							fakeTB:Destroy()
+							conn:Disconnect()
+							options.OnBindSet(Toggle.Bind)
+						end
+					end)
+				end)
+				
+				-- Detect keybind press
+				uis.InputBegan:Connect(function(io,gpe)
+					if gpe then return end
+					if io.KeyCode.Name == Toggle.Bind then
+						Toggle.SetToggleState(not Toggle.ToggleState)
+					end
+				end)
+				
+				-- Return toggle object
+				return Toggle
+			end
+			
+			-- Slider
+			function Feature.CreateSlider(options)
+				-- Init slider object
+				local Slider = {}
+				
+				-- Default options
+				options.OnValueChanged = options.OnValueChanged or function()end
+				
+				-- Define options
+				local min = options.Min
+				local max = options.Max
+				local increment = options.Increment
+				
+				-- Default properties for slider object
+				options.DefaultValue = options.DefaultValue or min
+				Slider.Value = options.DefaultValue
+				
+				-- Create slider element
+				local sliderTempl = windowEl.FeatureContainer.SliderTemplate
+				local sliderEl = sliderTempl:Clone()
+				sliderEl.Parent = sliderTempl.Parent
+				sliderEl.Visible = true
+				sliderEl.Name = 'slider-' .. options.ID
+				sliderEl.SliderText.Text = options.Name
+				
+				-- Resize scrolling frame
+				Feature.AutoSizeScrollingFrame()
+				
+				-- Define children
+				local background = sliderEl.SliderBackground
+				local fill = background.Fill
+				local valueTextbox = sliderEl.NumberText
+				
+				-- Set slider value
+				function Slider.SetValue(val)
+					
+					val = math.clamp(val,min,max)
+					
+					valueTextbox.Text = val .. (options.Suffix and (' ' .. options.Suffix) or '')
+					
+					-- Set slider fill size
+					local sliderFill = fill
+					local scale = (val - min) / (max - min)
+					-- sliderFill.Size = UDim2.new(scale,0,1,0)
+					
+					tws:Create(sliderFill,TweenInfo.new(.05,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ Size = UDim2.new(scale,0,1,0) }):Play()
+					
+					Slider.Value = val
+					
+					-- Slider value changed
+					options.OnValueChanged(val)
+				end
+				
+				-- Set initial slider value
+				if options.DefaultValue then
+					Slider.SetValue(options.DefaultValue)
+				end
+				
+				-- Set dragging value to false when user stops dragging
+				uis.InputEnded:Connect(function(io,gpe)
+					if io.UserInputType == Enum.UserInputType.MouseButton1 or io.UserInputType == Enum.UserInputType.Touch then
+						Slider.Dragging = false
+					end
+				end)
+				
+				-- Detect slider input
+				sliderEl.SliderClickDetection.MouseButton1Down:Connect(function()
+					Slider.Dragging = true
+					repeat
+						
+						local mousePos = uis:GetMouseLocation()
+						local scale = (mousePos.X - background.AbsolutePosition.X)/background.AbsoluteSize.X
+						
+						local value = min + (max - min) * scale
+						
+						value = roundDownToIncrement(value,increment)
+						Slider.SetValue(value)
+						
+						wait()
+					until not Slider.Dragging
+				end)
+				
+				-- Detect manual value entry via textbox
+				valueTextbox.FocusLost:Connect(function()
+					local enteredText = valueTextbox.Text
+					local val = tonumber(enteredText)
+					if val then
+						Slider.SetValue(val)
+					else
+						Slider.SetValue(Slider.Value)
+					end
+				end)
+				
+				-- Return slider object
+				return Slider
+			end
+			
+			-- Dropdown
+			function Feature.CreateDropdown(options)
+				-- Create dropdown object
+				local Dropdown = {}
+				
+				-- Default options
+				options.OnOptionSelected = options.OnOptionSelected or function()end
+				
+				-- Create dropdown element
+				local dropdownTempl = windowEl.FeatureContainer.DropdownTemplate
+				local dropdownEl = dropdownTempl:Clone()
+				dropdownEl.Parent = dropdownTempl.Parent
+				dropdownEl.Visible = true
+				dropdownEl.Name = 'Dropdown-' .. options.ID
+				dropdownEl.DropdownText.Text = options.Name
+				
+				-- Resize scrolling frame
+				Feature.AutoSizeScrollingFrame()
+				
+				dropdownEl.DropdownSubContCG.Visible = false
+				
+				-- Dropdown properties
+				Dropdown.Expanded = false
+				Dropdown.CurrentSelection = nil
+				
+				-- Children
+				local dropdownOptionsCont = dropdownEl.DropdownSubContCG.DropdownSubCont
+				
+				function Dropdown.AutoSizeScrollingFrame()
+					local ScrollingFrame = dropdownOptionsCont
+
+					local PaddingBetween = ScrollingFrame.UIListLayout.Padding.Offset
+					local TopPadding = ScrollingFrame.UIPadding.PaddingTop.Offset
+					local BottomPadding = ScrollingFrame.UIPadding.PaddingBottom.Offset
+
+					local items = {}
+					for _,v in pairs(ScrollingFrame:GetChildren()) do
+						if v:IsA('Frame') and v.Visible then
+							table.insert(items,v)
+						end
+					end
+
+					local combinedElementHeight = 0
+					for _,v in pairs(items) do
+						combinedElementHeight += v.AbsoluteSize.Y
+					end
+					combinedElementHeight += PaddingBetween*(#items-1) + TopPadding + BottomPadding
+
+					ScrollingFrame.CanvasSize = UDim2.new(0,0,0,combinedElementHeight)
+				end
+				
+				-- Dropdown expand and collapse functions
+				function Dropdown.Expand()
+					delay(.1,function()
+						Feature.AnyDropdownExpanded = true
+					end)
+					dropdownEl.ZIndex+=1
+					Dropdown.Expanded = true
+					dropdownEl.DropdownSubContCG.Visible = true
+					tws:Create(dropdownEl.DropdownSubContCG,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ GroupTransparency = 0 }):Play()
+					dropdownEl.Dropdown.DropdownImage.Rotation = 180
+				end
+				function Dropdown.Collapse()
+					Feature.AnyDropdownExpanded = false
+					dropdownEl.ZIndex-=1
+					Dropdown.Expanded = false
+					tws:Create(dropdownEl.DropdownSubContCG,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ GroupTransparency = 1 }):Play()
+					dropdownEl.Dropdown.DropdownImage.Rotation = 0
+					wait(.1)
+					dropdownEl.DropdownSubContCG.Visible = false
+				end
+				
+				-- Dropdown select option function
+				function Dropdown.SelectOption(name)
+					if Dropdown.CurrentSelection == name then return end
+					if dropdownOptionsCont then
+						local lastSelectedEl = Dropdown.CurrentSelection and dropdownOptionsCont:FindFirstChild('Option-' .. Dropdown.CurrentSelection) or nil
+						if lastSelectedEl then
+							tws:Create(lastSelectedEl.Background,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ BackgroundTransparency = 0 }):Play()
+							tws:Create(lastSelectedEl.Check,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ ImageTransparency = 1 }):Play()
+							tws:Create(lastSelectedEl:FindFirstChild('Name'),TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ TextColor3 = rgb(157, 157, 157) }):Play()
+						end
+						local optionEl = dropdownOptionsCont:FindFirstChild('Option-' .. name)
+						if optionEl then
+							Dropdown.CurrentSelection = name
+							dropdownEl.Dropdown.Label.Text = name
+							tws:Create(optionEl.Background,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ BackgroundTransparency = 1 }):Play()
+							tws:Create(optionEl.Check,TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ ImageTransparency = 0 }):Play()
+							tws:Create(optionEl:FindFirstChild('Name'),TweenInfo.new(.1,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),{ TextColor3 = rgb(255, 255, 255) }):Play()
+							wait(.175)
+							Dropdown.Collapse()
+						end
+					end
+					options.OnOptionSelected(name)
+				end
+				
+				-- Dropdown click detection
+				dropdownEl.Dropdown.ClickDetection.MouseButton1Click:Connect(function()
+					print('Clicked')
+					if Feature.AnyDropdownExpanded and not Dropdown.Expanded then return end
+					if Dropdown.Expanded then
+						Dropdown.Collapse()
+					else
+						Dropdown.Expand()
+					end
+				end)
+				
+				-- Create dropdown options
+				local dropdownOptions = options.DropdownOptions
+				if dropdownOptions then
+					for _,v in pairs(dropdownOptions) do
+						local dropdownOptionTempl = dropdownEl.DropdownSubContCG.DropdownSubCont.OptionTemplate
+						local dropdownOptionEl = dropdownOptionTempl:Clone()
+						dropdownOptionEl.Parent = dropdownOptionTempl.Parent
+						dropdownOptionEl.Name = 'Option-' .. v
+						dropdownOptionEl.Visible = true
+						dropdownOptionEl:FindFirstChild('Name').Text = v
+						dropdownOptionEl.ClickDetection.MouseButton1Click:Connect(function()
+							Dropdown.SelectOption(v)
+						end)
+					end
+				end
+				
+				-- Text when no selection
+				dropdownEl.Dropdown.Label.Text = options.DropdownTextWhenUnselected or 'Select'
+				
+				-- Default selection
+				if options.DefaultSelection then
+					Dropdown.SelectOption(options.DefaultSelection)
+				end
+				
+				-- Auto size scrolling frame
+				Dropdown.AutoSizeScrollingFrame()
+				
+				-- Return dropdown object
+				return Dropdown
+			end
+			
+			-- Color picker
+			function Feature.CreateColorPicker(options)
+				-- Create color picker object
+				local ColorPicker = {}
+				
+				-- Default values
+				options.DefaultColor = options.DefaultColor or rgb(255,255,255)
+				
+				-- Default functions
+				options.OnColorChanged = options.OnColorChanged or function()end
+				
+				-- Create color picker element
+				local colorPickerTempl = windowEl.FeatureContainer.ColorPickerTemplate
+				local colorPickerEl = colorPickerTempl:Clone()
+				colorPickerEl.Parent = colorPickerTempl.Parent
+				colorPickerEl.Visible = true
+				colorPickerEl.Name = 'ColorPicker-' .. options.ID
+				colorPickerEl.Title.Text = options.Name
+				
+				-- Resize scrolling frame
+				Feature.AutoSizeScrollingFrame()
+				
+				-- Elements
+				local wheel = colorPickerEl.CanvasGroup.ColorPickerCircle
+				local wheelCursor = wheel.FakeCursor
+				local brightnessSlider = colorPickerEl.CanvasGroup.BrightnessSlider
+				local brightnessSliderMarker = brightnessSlider.BrightnessSliderMarker
+				local rightCont = colorPickerEl.CanvasGroup.RightCont
+				local RGBFrame = rightCont.RGBandHSV.RGB
+				local HSVFrame = rightCont.RGBandHSV.HSV
+				local hexTB = rightCont.HexCode.TextBox
+				local R_TB = RGBFrame.R.RBox
+				local G_TB = RGBFrame.G.GBox
+				local B_TB = RGBFrame.B.BBox
+				local H_TB = HSVFrame.Hue.HBox
+				local S_TB = HSVFrame.Saturation.SBox
+				local V_TB = HSVFrame.Value.VBox
+				
+				-- Circle functions
+				local function angleAroundCircleCenter(centerPoint, point)
+					local offset = point - centerPoint
+					local angleRad = math.atan2(offset.X, -offset.Y)
+					local angleDeg = math.deg(angleRad)
+					return (angleDeg + 360) % 360
+				end
+
+				local function angleAndDistToCirclePoint(center, angleDeg, distance)
+					local angleRad = math.rad(angleDeg)
+					local x = center.X + math.sin(angleRad) * distance
+					local y = center.Y - math.cos(angleRad) * distance  -- minus because 0° is up
+					return Vector2.new(x, y)
+				end
+				
+				--
+				function ColorPicker.SetColor(clr,keepHueAndSat)
+					local keepHueAndSat = keepHueAndSat or false
+					
+					local H,S,V = clr:ToHSV()
+					local hex = clr:ToHex()
+					
+					if keepHueAndSat then
+						H = ColorPicker.LastHue
+						S = ColorPicker.LastSaturation
+					end
+					
+					-- Wheel
+					local wheelCenter = wheel.AbsolutePosition + wheel.AbsoluteSize/2
+					local wheelRadius = wheel.AbsoluteSize.X/2
+					
+					local wheelCursorOffset = angleAndDistToCirclePoint(wheelCenter,H*360,wheelRadius*S) - wheelCenter
+					
+					wheelCursor.Position = UDim2.new(.5,wheelCursorOffset.X,.5,wheelCursorOffset.Y)
+					
+					-- Brightness slider
+					brightnessSlider.BackgroundColor3 = Color3.fromHSV(H,S,1)
+					brightnessSliderMarker.Position = UDim2.new(1-V,0,.5,0)
+					brightnessSliderMarker.BackgroundColor3 = clr
+					
+					-- Text boxes
+					hexTB.Text = '#' .. hex:upper()
+					R_TB.Text = tostring(math.round(clr.R * 255))
+					G_TB.Text = tostring(math.round(clr.G * 255))
+					B_TB.Text = tostring(math.round(clr.B * 255))
+					H_TB.Text = tostring(math.round(H*360))
+					S_TB.Text = tostring(math.round(S*255))
+					V_TB.Text = tostring(math.round(V*255))
+					
+					-- Set color property of ColorPicker
+					ColorPicker.Color = clr
+					
+					-- Call on color changed function
+					options.OnColorChanged(clr)
+				end
+				
+				-- Drag input end
+				uis.InputEnded:Connect(function(io,gpe)
+					if io.UserInputType == Enum.UserInputType.MouseButton1 or io.UserInputType == Enum.UserInputType.Touch then
+						ColorPicker.WheelDragging = false
+						ColorPicker.BrightnessSliderDragging = false
+					end
+				end)
+				
+				-- Color wheel drag
+				ColorPicker.WheelDragging = false
+				wheel.MouseButton1Down:Connect(function()
+					ColorPicker.WheelDragging = true
+					repeat
+						--warn('Dragging')
+						local inset = guis:GetGuiInset()
+						local mousePos = uis:GetMouseLocation() - inset
+						
+						local wheelCenter = wheel.AbsolutePosition + wheel.AbsoluteSize/2
+						local wheelRadius = wheel.AbsoluteSize.X/2
+						
+						local relMousePos = mousePos - wheelCenter
+						local distToCenter = math.min(relMousePos.Magnitude,wheelRadius)
+						local angle = angleAroundCircleCenter(wheelCenter,mousePos)
+						
+						local H = angle/360
+						local S = distToCenter/wheelRadius
+						local V = 1-brightnessSliderMarker.Position.X.Scale
+						
+						local clr = Color3.fromHSV(H,S,V)
+						
+						ColorPicker.SetColor(clr)
+						
+						wait()
+					until not ColorPicker.WheelDragging
+				end)
+				
+				-- Text box changes
+				local function updateFromRGBTextboxes()
+					local R = tonumber(R_TB.Text)
+					local G = tonumber(G_TB.Text)
+					local B = tonumber(B_TB.Text)
+					if R and G and B then
+						R = math.clamp(R,0,255)
+						G = math.clamp(G,0,255)
+						B = math.clamp(B,0,255)
+						local clr = rgb(R,G,B)
+						ColorPicker.SetColor(clr)
+					else
+						ColorPicker.SetColor(ColorPicker.Color)
+					end
+				end
+				local function updateFromHSVTextboxes()
+					local H = tonumber(H_TB.Text)
+					local S = tonumber(S_TB.Text)
+					local V = tonumber(V_TB.Text)
+					if H and S and V then
+						H = math.clamp(H,0,360)
+						S = math.clamp(S,0,255)
+						V = math.clamp(V,0,255)
+						local clr = Color3.fromHSV(H/360,S/255,V/255)
+						ColorPicker.SetColor(clr)
+					else
+						ColorPicker.SetColor(ColorPicker.Color)
+					end
+				end
+				local function updateFromHexTextbox()
+					local hex = hexTB.Text
+					local s,clr = pcall(function()
+						local clr = Color3.fromHex(hex)
+						return clr
+					end)
+					if s then
+						ColorPicker.SetColor(clr)
+					else
+						ColorPicker.SetColor(ColorPicker.Color)
+					end
+				end
+				R_TB.FocusLost:Connect(updateFromRGBTextboxes)
+				G_TB.FocusLost:Connect(updateFromRGBTextboxes)
+				B_TB.FocusLost:Connect(updateFromRGBTextboxes)
+				
+				H_TB.FocusLost:Connect(updateFromHSVTextboxes)
+				S_TB.FocusLost:Connect(updateFromHSVTextboxes)
+				V_TB.FocusLost:Connect(updateFromHSVTextboxes)
+				hexTB.FocusLost:Connect(updateFromHexTextbox)
+				
+				-- Brightness slider
+				brightnessSlider.BrightnessSliderButton.MouseButton1Down:Connect(function()
+					ColorPicker.BrightnessSliderDragging = true
+					repeat
+						local mousePos = uis:GetMouseLocation()
+						local minX = brightnessSlider.AbsolutePosition.X
+						local scale = (mousePos.X - minX) / brightnessSlider.AbsoluteSize.X
+						scale = math.clamp(scale, 0, 1)
+
+						brightnessSliderMarker.Position = UDim2.new(scale, 0, 0.5, 0)
+						local V = 1 - scale
+
+						local H, S = ColorPicker.Color:ToHSV()
+
+						if V > 0.01 and S > 0.01 then
+							-- Not black: cache the good values
+							ColorPicker.LastHue = H
+							ColorPicker.LastSaturation = S
+						else
+							-- Recover from black using last known values
+							H = ColorPicker.LastHue or 0
+							S = ColorPicker.LastSaturation or 1
+						end
+
+						local clr = Color3.fromHSV(H, S, V)
+						ColorPicker.SetColor(clr,true) -- don't use `keepHueAndSat` anymore
+
+						wait()
+					until not ColorPicker.BrightnessSliderDragging
+				end)
+
+				
+				-- Test
+				local H,S,_ = options.DefaultColor:ToHSV()
+				ColorPicker.LastHue = H
+				ColorPicker.LastSaturation = S
+				ColorPicker.SetColor(options.DefaultColor)
+				
+				-- Return color picker object
+				return ColorPicker
+			end
+			
+			function Feature.CreateTextbox(options)
+				-- Create textbox object
+				local TextBox = {}
+				
+				-- Default values
+				local validityFunction = options.ValidityFunction or function(txt) return txt end
+				
+				-- Textbox properties
+				TextBox.Text = ''
+				
+				-- Create textbox element
+				local textBoxTempl = windowEl.FeatureContainer.TextBoxTemplate
+				local textBoxEl = textBoxTempl:Clone()
+				textBoxEl.Name = 'Textbox-' .. options.ID
+				textBoxEl.Title.Text = options.Name
+				textBoxEl.Parent = textBoxTempl.Parent
+				textBoxEl.Visible = true
+				
+				-- Resize scrolling frame
+				Feature.AutoSizeScrollingFrame()
+				
+				-- Textbox functions
+				--function TextBox.SetText(txt)
+				--	TextBox.Text = txt
+				--	textBoxEl.TextBox.Text = txt
+				--end
+				
+				-- Detect input
+				textBoxEl.TextBox.FocusLost:Connect(function()
+					if options.OnTextChange then
+						options.OnTextChange(textBoxEl.TextBox.Text)
+					end
+				end)
+				
+				-- Set default
+				textBoxEl.TextBox.Text = options.DefaultText or ''
+				
+				-- Placeholder text
+				textBoxEl.TextBox.PlaceholderText = options.PlaceholderText or 'Input Text Here...'
+				
+				-- Return textbox object
+				return TextBox
+			end
+			
+			function Feature.CreateKeybind(options)
+				-- Create keybind object
+				local Keybind = {}
+				
+				-- Default options
+				options.OnBindSet = options.OnBindSet or function()end
+				options.OnBindPress = options.OnBindPress or function()end
+				
+				-- Create keybind element
+				local keybindTempl = windowEl.FeatureContainer.KeybindTemplate
+				local keybindEl = keybindTempl:Clone()
+				keybindEl.Name = 'Keybind-' .. options.ID
+				keybindEl.Title.Text = options.Name
+				keybindEl.Parent = keybindTempl.Parent
+				keybindEl.Visible = true
+				
+				local keybindBtn = keybindEl.KeybindFrame.KeybindButton
+				keybindBtn.MouseButton1Click:Connect(function()
+					keybindBtn.Text = '...'
+
+					-- Focus fake text box
+					local fakeTB = create('TextBox',GUI,{
+						Position = UDim2.new(5,0,0,0)
+					})
+					fakeTB:CaptureFocus()
+
+					local conn;conn= uis.InputBegan:Connect(function(io,gpe)
+						local k = io.KeyCode
+						if k == keys.Escape then
+							keybindBtn.Text = initialKeybindBtnText
+							Keybind.Bind = nil
+							fakeTB:Destroy()
+							conn:Disconnect()
+							options.OnBindSet(Keybind.Bind)
+						elseif io.UserInputType == Enum.UserInputType.MouseButton1 then
+							Keybind.Bind = 'MouseButton1'
+							keybindBtn.Text = 'MouseButton1'
+							fakeTB:Destroy()
+							conn:Disconnect()
+							options.OnBindSet(Keybind.Bind)
+						elseif io.UserInputType == Enum.UserInputType.MouseButton2 then
+							Keybind.Bind = 'MouseButton2'
+							keybindBtn.Text = 'MouseButton2'
+							fakeTB:Destroy()
+							conn:Disconnect()
+							options.OnBindSet(Keybind.Bind)
+						elseif io.UserInputType == Enum.UserInputType.MouseButton3 then
+							Keybind.Bind = 'MouseButton3'
+							keybindBtn.Text = 'MouseButton3'
+							fakeTB:Destroy()
+							conn:Disconnect()
+							options.OnBindSet(Keybind.Bind)
+						elseif io.UserInputType == Enum.UserInputType.Keyboard then
+							wait()
+							Keybind.Bind = k.Name
+							keybindBtn.Text = k.Name
+							fakeTB:Destroy()
+							conn:Disconnect()
+							options.OnBindSet(Keybind.Bind)
+						end
+					end)
+				end)
+
+				-- Detect keybind press
+				uis.InputBegan:Connect(function(io,gpe)
+					if gpe then return end
+					if io.KeyCode.Name == Keybind.Bind or io.UserInputType.Name == Keybind.Bind then
+						options.OnBindPress()
+					end
+				end)
+				
+				-- Default keybind
+				Keybind.Bind = options.DefaultBind
+				keybindBtn.Text = (options.DefaultBind:find('MouseButton') and Enum.UserInputType[options.DefaultBind] or Enum.KeyCode[options.DefaultBind]).Name
+				
+				-- Return keybind object
+				return Keybind
+			end
+			
+			-- Resize scrolling frame
+			function Feature.AutoSizeScrollingFrame()
+				local ScrollingFrame = windowEl.FeatureContainer
+				
+				local PaddingBetween = ScrollingFrame.UIListLayout.Padding.Offset
+				local TopPadding = ScrollingFrame.UIPadding.PaddingTop.Offset
+				local BottomPadding = ScrollingFrame.UIPadding.PaddingBottom.Offset
+
+				local items = {}
+				for _,v in pairs(ScrollingFrame:GetChildren()) do
+					if v:IsA('Frame') and v.Visible then
+						table.insert(items,v)
+					end
+				end
+
+				local combinedElementHeight = 0
+				for _,v in pairs(items) do
+					combinedElementHeight += v.AbsoluteSize.Y
+				end
+				combinedElementHeight += PaddingBetween*(#items-1) + TopPadding + BottomPadding
+
+				ScrollingFrame.CanvasSize = UDim2.new(0,0,1,combinedElementHeight)
+			end
+			
+		end
+
+		-- Return feature object
+		return Feature
+	end
+
+	-- Return page object
+	return Page
+end
+
+return UI

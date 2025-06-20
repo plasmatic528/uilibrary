@@ -1,3 +1,35 @@
+local get=function(x)return game:GetService(x)end local players = get('Players') local ws = get('Workspace') local rs = get('ReplicatedStorage') local rus = get('RunService') local uis = get('UserInputService') local http = get('HttpService') local ts = get('TeleportService') local lighting = get('Lighting') local plr = players.LocalPlayer local cf = CFrame local v3 = Vector3 local v2 = Vector2 local ud2 = UDim2 local c3 = Color3 local rgb = c3.fromRGB local step = rus.Stepped local rstep = rus.RenderStepped local heartbeat = rus.Heartbeat local keys = Enum.KeyCode local states = Enum.HumanoidStateType local JSON = { stringify = function(x) return http:JSONEncode(x) end, parse = function(x) return http:JSONDecode(x) end } local char = plr.Character or plr.CharacterAdded:Wait() local hum, hrp, torso local function onCharAdded(c) hum = c:WaitForChild('Humanoid') hrp = c:WaitForChild('HumanoidRootPart') torso = char:WaitForChild(hum.RigType == Enum.HumanoidRigType.R6 and 'Torso' or 'UpperTorso') end onCharAdded(char) plr.CharacterAdded:Connect(onCharAdded) local function create(class, parent, props, children) if not class then return end props = props or { } children = children or { } local obj = Instance.new(class, parent) for prop, name in pairs(props) do obj[prop] = name end for _, child in pairs(children) do child.Parent = obj end return obj end local function bind(key, func) uis.InputBegan:Connect(function(k, gpe) if not gpe and k.KeyCode == key then func() end end) end local function find(tbl, value) local func = type(value) == 'function' and value or function(x)return v==x end for _, v in pairs(tbl) do if func(v) then return v end end return end local function indexOf(tbl, value) for i, v in pairs(tbl) do if v == value then return i end end return end local function handleChar(p, func) local char2 = p.Character if char2 then local hum2 = char2:FindFirstChild('Humanoid') local hrp2 = char2:FindFirstChild('HumanoidRootPart') if hum2 and hrp2 then func(char2, hum2, hrp2) end end end local wait = task.wait
+local tws = get('TweenService')
+local guis = get('GuiService')
+local stats = get('Stats')
+local function getPing()
+	return stats.PerformanceStats.Ping:GetValue()
+end
+
+-- FF2 Values
+local values = rs.Flags
+local statusVal = values.Status
+local playTypeVal = values.PlayType
+local thrownVal = values.Thrown
+local possessionTagVal = values.PossessionTag
+local carrierVal = values.Carrier
+
+local flags = rs.Flags
+local statusFlag = flags.Status
+local ballFlag = flags.Ball
+local thrownFlag = flags.Thrown
+local playTypeFlag = flags.PlayType
+local carrierFlag = flags.Carrier
+local throwableFlag = flags.Throwable
+local possessionTagFlag = flags.PossessionTag
+local QBFlag = flags.QB
+
+
+-- UI
+local get=function(x)return game:GetService(x)end local players = get('Players') local ws = get('Workspace') local rs = get('ReplicatedStorage') local rus = get('RunService') local uis = get('UserInputService') local http = get('HttpService') local ts = get('TeleportService') local lighting = get('Lighting') local plr = players.LocalPlayer local cf = CFrame local v3 = Vector3 local v2 = Vector2 local ud2 = UDim2 local c3 = Color3 local rgb = c3.fromRGB local step = rus.Stepped local rstep = rus.RenderStepped local heartbeat = rus.Heartbeat local keys = Enum.KeyCode local states = Enum.HumanoidStateType local JSON = { stringify = function(x) return http:JSONEncode(x) end, parse = function(x) return http:JSONDecode(x) end } local char = plr.Character or plr.CharacterAdded:Wait() local hum, hrp, torso local function onCharAdded(c) hum = c:WaitForChild('Humanoid') hrp = c:WaitForChild('HumanoidRootPart') torso = char:WaitForChild(hum.RigType == Enum.HumanoidRigType.R6 and 'Torso' or 'UpperTorso') end onCharAdded(char) plr.CharacterAdded:Connect(onCharAdded) local function create(class, parent, props, children) if not class then return end props = props or { } children = children or { } local obj = Instance.new(class, parent) for prop, name in pairs(props) do obj[prop] = name end for _, child in pairs(children) do child.Parent = obj end return obj end local function bind(key, func) uis.InputBegan:Connect(function(k, gpe) if not gpe and k.KeyCode == key then func() end end) end local function find(tbl, value) local func = type(value) == 'function' and value or function(x)return v==x end for _, v in pairs(tbl) do if func(v) then return v end end return end local function indexOf(tbl, value) for i, v in pairs(tbl) do if v == value then return i end end return end local function handleChar(p, func) local char2 = p.Character if char2 then local hum2 = char2:FindFirstChild('Humanoid') local hrp2 = char2:FindFirstChild('HumanoidRootPart') if hum2 and hrp2 then func(char2, hum2, hrp2) end end end local wait = task.wait
+local tws = get('TweenService')
+local guis = get('GuiService')
+
 local UIElements = {
 	Library = Instance.new("ScreenGui"),
 	ButtonWindowTemplate = Instance.new("Frame"),

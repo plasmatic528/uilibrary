@@ -5,25 +5,7 @@ local stats = get('Stats')
 local function getPing()
 	return stats.PerformanceStats.Ping:GetValue()
 end
-print('Lib loaded')
-
--- FF2 Values
-local values = rs.Flags
-local statusVal = values.Status
-local playTypeVal = values.PlayType
-local thrownVal = values.Thrown
-local possessionTagVal = values.PossessionTag
-local carrierVal = values.Carrier
-
-local flags = rs.Flags
-local statusFlag = flags.Status
-local ballFlag = flags.Ball
-local thrownFlag = flags.Thrown
-local playTypeFlag = flags.PlayType
-local carrierFlag = flags.Carrier
-local throwableFlag = flags.Throwable
-local possessionTagFlag = flags.PossessionTag
-local QBFlag = flags.QB
+print('Lib done!')
 
 
 -- UI

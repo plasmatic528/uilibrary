@@ -5,7 +5,7 @@ local stats = get('Stats')
 local function getPing()
 	return stats.PerformanceStats.Ping:GetValue()
 end
-print('Lib done!')
+print('Lib done!!!')
 
 
 -- UI
@@ -372,7 +372,7 @@ UIElements.Library.ScreenInsets = Enum.ScreenInsets.None
 UIElements.Library.Name = "Library"
 UIElements.Library.ClipToDeviceSafeArea = false
 UIElements.Library.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-UIElements.Library.Parent = game:GetService('CoreGui')
+UIElements.Library.Parent = plr.PlayerGui
 
 UIElements.ButtonWindowTemplate.BorderSizePixel = 0
 UIElements.ButtonWindowTemplate.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
